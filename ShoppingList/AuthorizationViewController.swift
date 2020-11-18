@@ -15,10 +15,11 @@ class AuthorizationViewController: UIViewController {
     var registrationButton: UIButton!
     var stackView: UIStackView!
     
-    var presenter: Presenter!
+    var presenter: AuthorizationPresenter!
     
     override func viewDidLoad() {
-        presenter = Presenter(view: AuthorizationViewController())
+        super.viewDidLoad()
+        presenter = AuthorizationPresenter(viewController: AuthorizationViewController())
     }
     
     override func loadView() {

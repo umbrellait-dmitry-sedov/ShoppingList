@@ -7,12 +7,12 @@
 
 import Foundation
 
-class Presenter {
+class AuthorizationPresenter {
     
-    let view: AuthorizationViewController!
+    let viewController: AuthorizationViewController!
     
-    init(view: AuthorizationViewController) {
-        self.view = view
+    init(viewController: AuthorizationViewController) {
+        self.viewController = viewController
     }
     
     func logic() {
