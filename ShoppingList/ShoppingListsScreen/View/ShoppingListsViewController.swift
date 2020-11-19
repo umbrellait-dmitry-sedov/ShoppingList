@@ -9,7 +9,7 @@ import UIKit
 
 class ShoppingListsViewController: UICollectionViewController {
     
-    var presenter: ShoppingListsPresenter!
+    var shoppingListPresenter: ShoppingListsPresenter!
     
     let itemsPerRow: CGFloat = 3
     let sectionInsets = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
@@ -17,7 +17,7 @@ class ShoppingListsViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        presenter = ShoppingListsPresenter(viewController: ShoppingListsViewController())
+        shoppingListPresenter = ShoppingListsPresenter(viewController: ShoppingListsViewController())
         
         title = "Shopping Lists"
         
@@ -38,47 +38,29 @@ class ShoppingListsViewController: UICollectionViewController {
         ac.addTextField()
         ac.addAction(UIAlertAction(title: "Done", style: .default, handler: { [weak self] action in
             guard let name = ac.textFields?[0].text else { return }
-            self?.presenter.shoppingLists.append(ShoppingList(name: name, goods: [nil]))
+            self?.shoppingListPresenter.shoppingLists.append(ShoppingList(name: name, goods: [nil]))
             self?.collectionView.reloadData()
         }))
         present(ac, animated: true)
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return presenter.shoppingLists.count
+        return shoppingListPresenter.shoppingLists.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! ShoppingListsCell
         
-        let list = presenter.shoppingLists[indexPath.item]
+        let list = shoppingListPresenter.shoppingLists[indexPath.item]
 
         cell.label.text = list.name
         cell.backgroundColor = .blue
         cell.layer.cornerRadius = 10
         return cell
     }
-}
-
-extension ShoppingListsViewController: UICollectionViewDelegateFlowLayout {
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let paddingWidth: CGFloat = sectionInsets.left * (itemsPerRow + 1)
-        let availableWidth = collectionView.frame.width - paddingWidth
-        let widthPerItem = availableWidth / itemsPerRow
-        
-        return CGSize(width: widthPerItem, height: widthPerItem + 20)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return sectionInsets
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return sectionInsets.left
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return sectionInsets.left
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let vc = ListTableViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
