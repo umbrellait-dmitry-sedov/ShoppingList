@@ -9,8 +9,6 @@ import UIKit
 
 class ShoppingListsViewController: UICollectionViewController {
     
-    var addListButton: UIButton!
-    
     var presenter: ShoppingListsPresenter!
     
     let itemsPerRow: CGFloat = 3
