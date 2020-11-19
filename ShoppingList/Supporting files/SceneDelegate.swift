@@ -18,8 +18,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let window = UIWindow(windowScene: windowScene)
         
-        let viewController = AuthorizationViewController()
-        let navigation = UINavigationController(rootViewController: viewController)
+        let viewControllerShoopingList = ShoppingListsViewController(collectionViewLayout: UICollectionViewFlowLayout())
+        let viewControllerAuth = AuthorizationViewController()
+        let navigation = UINavigationController(rootViewController: viewControllerShoopingList)
         
         window.rootViewController = navigation
 
