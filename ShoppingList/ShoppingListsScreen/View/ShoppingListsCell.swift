@@ -14,7 +14,7 @@ class ShoppingListsCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        label = UILabel(frame: CGRect(x: 20, y: 20, width: self.bounds.width - 20, height: 20))
+        label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.textAlignment = .center
