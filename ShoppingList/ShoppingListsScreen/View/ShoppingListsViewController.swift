@@ -23,7 +23,7 @@ class ShoppingListsViewController: UICollectionViewController {
         
         title = "Shopping Lists"
         
-        collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "collectionCell")
+        collectionView?.register(ShoppingListsCell.self, forCellWithReuseIdentifier: "collectionCell")
         collectionView?.delegate = self
         collectionView?.backgroundColor = .orange
     }
@@ -38,20 +38,29 @@ class ShoppingListsViewController: UICollectionViewController {
         
         let imageFromAddButton = UIImage(systemName: "plus.square.on.square.fill", withConfiguration: UIImage.SymbolConfiguration(weight: .regular))?.withTintColor(.systemBlue, renderingMode: .alwaysOriginal)
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: imageFromAddButton, style: .plain, target: self, action: #selector(addListButtonAction))
-        
     }
     
     @objc func addListButtonAction() {
-        
+        let ac = UIAlertController(title: nil, message: "Please enter the name of the list", preferredStyle: .alert)
+        ac.addTextField()
+        ac.addAction(UIAlertAction(title: "Done", style: .default, handler: { [weak self] action in
+            guard let name = ac.textFields?[0].text else { return }
+            self?.presenter.shoppingLists.append(ShoppingList(name: name, goods: [nil]))
+            self?.collectionView.reloadData()
+        }))
+        present(ac, animated: true)
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 20
+        return presenter.shoppingLists.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath as IndexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! ShoppingListsCell
         
+        guard let list = presenter.shoppingLists[indexPath.item] else { return cell}
+
+        cell.label.text = list.name
         cell.backgroundColor = .blue
         cell.layer.cornerRadius = 10
         return cell

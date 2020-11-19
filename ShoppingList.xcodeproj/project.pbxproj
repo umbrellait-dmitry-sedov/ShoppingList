@@ -13,6 +13,8 @@
 		3831B7C12564193000C250EB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3831B7C02564193000C250EB /* Assets.xcassets */; };
 		3831B7C42564193000C250EB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3831B7C22564193000C250EB /* LaunchScreen.storyboard */; };
 		384D7633256523F90014A32A /* AuthorizationPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384D7632256523F90014A32A /* AuthorizationPresenter.swift */; };
+		38804E242566504B008A1108 /* ShoppingListsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38804E232566504B008A1108 /* ShoppingListsModel.swift */; };
+		38804E2B25665AF2008A1108 /* ShoppingListsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38804E2A25665AF2008A1108 /* ShoppingListsCell.swift */; };
 		3885AE822565365A00EC71E8 /* ShoppingListsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3885AE812565365A00EC71E8 /* ShoppingListsViewController.swift */; };
 		3885AE852565366A00EC71E8 /* ShoppingListsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3885AE842565366A00EC71E8 /* ShoppingListsPresenter.swift */; };
 /* End PBXBuildFile section */
@@ -26,6 +28,8 @@
 		3831B7C32564193000C250EB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3831B7C52564193000C250EB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		384D7632256523F90014A32A /* AuthorizationPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationPresenter.swift; sourceTree = "<group>"; };
+		38804E232566504B008A1108 /* ShoppingListsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListsModel.swift; sourceTree = "<group>"; };
+		38804E2A25665AF2008A1108 /* ShoppingListsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListsCell.swift; sourceTree = "<group>"; };
 		3885AE812565365A00EC71E8 /* ShoppingListsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListsViewController.swift; sourceTree = "<group>"; };
 		3885AE842565366A00EC71E8 /* ShoppingListsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListsPresenter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -80,11 +84,37 @@
 			path = "Supporting files";
 			sourceTree = "<group>";
 		};
-		3885AE8B256551DC00EC71E8 /* ShoppingListsScreen */ = {
+		38804E2725665A61008A1108 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				38804E232566504B008A1108 /* ShoppingListsModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		38804E2825665A68008A1108 /* View */ = {
 			isa = PBXGroup;
 			children = (
 				3885AE812565365A00EC71E8 /* ShoppingListsViewController.swift */,
+				38804E2A25665AF2008A1108 /* ShoppingListsCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		38804E2925665A76008A1108 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
 				3885AE842565366A00EC71E8 /* ShoppingListsPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		3885AE8B256551DC00EC71E8 /* ShoppingListsScreen */ = {
+			isa = PBXGroup;
+			children = (
+				38804E2725665A61008A1108 /* Model */,
+				38804E2825665A68008A1108 /* View */,
+				38804E2925665A76008A1108 /* Presenter */,
 			);
 			path = ShoppingListsScreen;
 			sourceTree = "<group>";
@@ -159,11 +189,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				384D7633256523F90014A32A /* AuthorizationPresenter.swift in Sources */,
+				38804E2B25665AF2008A1108 /* ShoppingListsCell.swift in Sources */,
 				3831B7BC2564192F00C250EB /* AuthorizationViewController.swift in Sources */,
 				3885AE822565365A00EC71E8 /* ShoppingListsViewController.swift in Sources */,
 				3831B7B82564192F00C250EB /* AppDelegate.swift in Sources */,
 				3885AE852565366A00EC71E8 /* ShoppingListsPresenter.swift in Sources */,
 				3831B7BA2564192F00C250EB /* SceneDelegate.swift in Sources */,
+				38804E242566504B008A1108 /* ShoppingListsModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
