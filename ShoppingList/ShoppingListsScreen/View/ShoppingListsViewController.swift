@@ -31,11 +31,6 @@ class ShoppingListsViewController: UICollectionViewController {
     override func loadView() {
         super.loadView()
         
-        addListButton = UIButton()
-        addListButton.translatesAutoresizingMaskIntoConstraints = false
-        addListButton.imageView?.image = UIImage(systemName: "plus.square.on.square.fill", withConfiguration: UIImage.SymbolConfiguration(weight: .regular))?.withTintColor(.systemBlue, renderingMode: .alwaysOriginal)
-        addListButton.addTarget(self, action: #selector(addListButtonAction), for: .touchUpInside)
-        
         let imageFromAddButton = UIImage(systemName: "plus.square.on.square.fill", withConfiguration: UIImage.SymbolConfiguration(weight: .regular))?.withTintColor(.systemBlue, renderingMode: .alwaysOriginal)
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: imageFromAddButton, style: .plain, target: self, action: #selector(addListButtonAction))
     }
@@ -58,7 +53,7 @@ class ShoppingListsViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! ShoppingListsCell
         
-        guard let list = presenter.shoppingLists[indexPath.item] else { return cell}
+        let list = presenter.shoppingLists[indexPath.item]
 
         cell.label.text = list.name
         cell.backgroundColor = .blue
