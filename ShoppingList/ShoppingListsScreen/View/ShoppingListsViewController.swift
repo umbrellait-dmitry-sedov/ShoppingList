@@ -28,20 +28,10 @@ class ShoppingListsViewController: UICollectionViewController {
     
     override func loadView() {
         super.loadView()
-        
-        let imageFromAddButton = UIImage(systemName: "plus.square.on.square.fill", withConfiguration: UIImage.SymbolConfiguration(weight: .regular))?.withTintColor(.systemBlue, renderingMode: .alwaysOriginal)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: imageFromAddButton, style: .plain, target: self, action: #selector(addListButtonAction))
-    }
-    
-    @objc func addListButtonAction() {
-        let ac = UIAlertController(title: nil, message: "Please enter the name of the list", preferredStyle: .alert)
-        ac.addTextField()
-        ac.addAction(UIAlertAction(title: "Done", style: .default, handler: { [weak self] action in
-            guard let name = ac.textFields?[0].text else { return }
-            self?.shoppingListPresenter.shoppingLists.append(ShoppingList(name: name, goods: [nil]))
-            self?.collectionView.reloadData()
-        }))
-        present(ac, animated: true)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: .addImage,
+                                                            style: .plain,
+                                                            target: self,
+                                                            action: #selector(addListButtonAction))
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -60,7 +50,24 @@ class ShoppingListsViewController: UICollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let vc = ListTableViewController()
+        let products = shoppingListPresenter.shoppingLists[indexPath.row].products
+        
+        let presenter = ListPresenter(products: products)
+        let vc = ListTableViewController(presenter: presenter)
+        presenter.viewController = vc
+        
         self.navigationController?.pushViewController(vc, animated: true)
     }
+    
+    @objc private func addListButtonAction() {
+        let ac = UIAlertController(title: nil, message: "Please enter the name of the list", preferredStyle: .alert)
+        ac.addTextField()
+        ac.addAction(UIAlertAction(title: "Done", style: .default, handler: { [weak self] action in
+            guard let name = ac.textFields?[0].text else { return }
+            self?.shoppingListPresenter.shoppingLists.append(ShoppingList(name: name, products: []))
+            self?.collectionView.reloadData()
+        }))
+        present(ac, animated: true)
+    }
+    
 }

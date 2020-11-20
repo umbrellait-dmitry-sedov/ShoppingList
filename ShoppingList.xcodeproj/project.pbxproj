@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		25EF6E732567D03D0009652B /* UIImage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EF6E722567D03D0009652B /* UIImage+.swift */; };
 		3831B7B82564192F00C250EB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3831B7B72564192F00C250EB /* AppDelegate.swift */; };
 		3831B7BA2564192F00C250EB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3831B7B92564192F00C250EB /* SceneDelegate.swift */; };
 		3831B7BC2564192F00C250EB /* AuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3831B7BB2564192F00C250EB /* AuthorizationViewController.swift */; };
@@ -20,12 +21,13 @@
 		38C2606425668CC9006C6FA7 /* ListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C2606325668CC9006C6FA7 /* ListTableViewController.swift */; };
 		38C2606825668F4C006C6FA7 /* ShoppingListsViewController+UICollectionViewDelegateFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C2606725668F4C006C6FA7 /* ShoppingListsViewController+UICollectionViewDelegateFlowLayout.swift */; };
 		38C2606C25669668006C6FA7 /* ListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C2606B25669668006C6FA7 /* ListPresenter.swift */; };
-		38C26070256697C5006C6FA7 /* ListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C2606F256697C5006C6FA7 /* ListModel.swift */; };
+		38C26070256697C5006C6FA7 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C2606F256697C5006C6FA7 /* Product.swift */; };
 		38C2607325669A7F006C6FA7 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C2607225669A7F006C6FA7 /* ListCell.swift */; };
 		38C260762566BE18006C6FA7 /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C260752566BE18006C6FA7 /* RadioButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		25EF6E722567D03D0009652B /* UIImage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+.swift"; sourceTree = "<group>"; };
 		3831B7B42564192F00C250EB /* ShoppingList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShoppingList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3831B7B72564192F00C250EB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3831B7B92564192F00C250EB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -41,7 +43,7 @@
 		38C2606325668CC9006C6FA7 /* ListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewController.swift; sourceTree = "<group>"; };
 		38C2606725668F4C006C6FA7 /* ShoppingListsViewController+UICollectionViewDelegateFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ShoppingListsViewController+UICollectionViewDelegateFlowLayout.swift"; sourceTree = "<group>"; };
 		38C2606B25669668006C6FA7 /* ListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListPresenter.swift; sourceTree = "<group>"; };
-		38C2606F256697C5006C6FA7 /* ListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListModel.swift; sourceTree = "<group>"; };
+		38C2606F256697C5006C6FA7 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		38C2607225669A7F006C6FA7 /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		38C260752566BE18006C6FA7 /* RadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -57,6 +59,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		25EF6E6F2567CFD50009652B /* UIEntities */ = {
+			isa = PBXGroup;
+			children = (
+				38C260752566BE18006C6FA7 /* RadioButton.swift */,
+			);
+			path = UIEntities;
+			sourceTree = "<group>";
+		};
+		25EF6E712567D0330009652B /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				25EF6E722567D03D0009652B /* UIImage+.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		3831B7AB2564192F00C250EB = {
 			isa = PBXGroup;
 			children = (
@@ -76,9 +94,11 @@
 		3831B7B62564192F00C250EB /* ShoppingList */ = {
 			isa = PBXGroup;
 			children = (
+				25EF6E712567D0330009652B /* Extensions */,
 				3885AE8B256551DC00EC71E8 /* ShoppingListsScreen */,
 				38C2605F25668C4C006C6FA7 /* ListScreen */,
 				384D7635256527970014A32A /* Supporting files */,
+				25EF6E6F2567CFD50009652B /* UIEntities */,
 				3831B7BB2564192F00C250EB /* AuthorizationViewController.swift */,
 				384D7632256523F90014A32A /* AuthorizationPresenter.swift */,
 			);
@@ -146,7 +166,7 @@
 		38C2606025668C8B006C6FA7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				38C2606F256697C5006C6FA7 /* ListModel.swift */,
+				38C2606F256697C5006C6FA7 /* Product.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -156,7 +176,6 @@
 			children = (
 				38C2606325668CC9006C6FA7 /* ListTableViewController.swift */,
 				38C2607225669A7F006C6FA7 /* ListCell.swift */,
-				38C260752566BE18006C6FA7 /* RadioButton.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -250,7 +269,7 @@
 				38C260762566BE18006C6FA7 /* RadioButton.swift in Sources */,
 				38804E2B25665AF2008A1108 /* ShoppingListsCell.swift in Sources */,
 				3831B7BC2564192F00C250EB /* AuthorizationViewController.swift in Sources */,
-				38C26070256697C5006C6FA7 /* ListModel.swift in Sources */,
+				38C26070256697C5006C6FA7 /* Product.swift in Sources */,
 				3885AE822565365A00EC71E8 /* ShoppingListsViewController.swift in Sources */,
 				38C2607325669A7F006C6FA7 /* ListCell.swift in Sources */,
 				3831B7B82564192F00C250EB /* AppDelegate.swift in Sources */,
@@ -258,6 +277,7 @@
 				38C2606425668CC9006C6FA7 /* ListTableViewController.swift in Sources */,
 				3831B7BA2564192F00C250EB /* SceneDelegate.swift in Sources */,
 				38C2606C25669668006C6FA7 /* ListPresenter.swift in Sources */,
+				25EF6E732567D03D0009652B /* UIImage+.swift in Sources */,
 				38C2606825668F4C006C6FA7 /* ShoppingListsViewController+UICollectionViewDelegateFlowLayout.swift in Sources */,
 				38804E242566504B008A1108 /* ShoppingListsModel.swift in Sources */,
 			);

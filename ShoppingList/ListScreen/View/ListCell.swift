@@ -8,23 +8,24 @@
 import UIKit
 
 protocol ListCellDelegate: class {
-    func cellDidChangePrice(_ cell: ListCell, list: List)
+    
+    func cellDidChangePrice(_ cell: ListCell, product: Product)
+    
 }
 
 class ListCell: UITableViewCell {
     
     weak var delegate: ListCellDelegate?
     
-    var itemLabel: UILabel!
-    var completedButton: RadioButton!
-    var priceTextField: UITextField!
     var completed: Bool! {
         didSet {
             completedButton.completed = completed
         }
     }
     
-    var listPresenter: ListPresenter!
+    private var itemLabel: UILabel!
+    private var completedButton: RadioButton!
+    private var priceTextField: UITextField!
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -49,14 +50,13 @@ class ListCell: UITableViewCell {
         contentView.addSubview(completedButton)
         
         NSLayoutConstraint.activate([
-            
-            itemLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
+            itemLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10.0),
             itemLabel.topAnchor.constraint(equalTo: self.topAnchor),
             itemLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            priceTextField.trailingAnchor.constraint(equalTo: completedButton.leadingAnchor, constant: -20),
+            priceTextField.trailingAnchor.constraint(equalTo: completedButton.leadingAnchor, constant: -20.0),
             priceTextField.topAnchor.constraint(equalTo: self.topAnchor),
             priceTextField.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            completedButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
+            completedButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10.0),
             completedButton.topAnchor.constraint(equalTo: self.topAnchor),
             completedButton.bottomAnchor.constraint(equalTo: self.bottomAnchor)
             
@@ -67,8 +67,14 @@ class ListCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func setProduct(_ product: Product) {
+        itemLabel.text = product.item
+        completed = product.completed
+        priceTextField.text = product.price
+    }
+    
     private func addDoneButtonOnKeyboard(){
-        let doneToolbar: UIToolbar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
+        let doneToolbar: UIToolbar = UIToolbar(frame: CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.width, height: 50.0))
         doneToolbar.barStyle = .default
         
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
@@ -81,14 +87,14 @@ class ListCell: UITableViewCell {
         priceTextField.inputAccessoryView = doneToolbar
     }
     ///This method is worked out when the price value is entered and the button is pressed.
-    @objc func doneButtonAction(){
-        delegate?.cellDidChangePrice(self, list: List(item: itemLabel.text, completed: completed, price: priceTextField.text))
+    @objc private func doneButtonAction(){
+        delegate?.cellDidChangePrice(self, product: Product(item: itemLabel.text, completed: completed, price: priceTextField.text))
         priceTextField.resignFirstResponder()
     }
     
     ///The method is triggered by pressing the button on the purchase line and switching the colour of the button.
-    @objc func completedButtonTapped() {
+    @objc private func completedButtonTapped() {
         completed.toggle()
-        delegate?.cellDidChangePrice(self, list: List(item: itemLabel.text, completed: completed, price: priceTextField.text))
+        delegate?.cellDidChangePrice(self, product: Product(item: itemLabel.text, completed: completed, price: priceTextField.text))
     }
 }

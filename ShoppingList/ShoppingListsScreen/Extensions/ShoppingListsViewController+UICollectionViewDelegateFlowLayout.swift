@@ -14,7 +14,7 @@ extension ShoppingListsViewController: UICollectionViewDelegateFlowLayout {
         let availableWidth = collectionView.frame.width - paddingWidth
         let widthPerItem = availableWidth / itemsPerRow
         
-        return CGSize(width: widthPerItem, height: widthPerItem + 20)
+        return CGSize(width: widthPerItem, height: widthPerItem + 20.0)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

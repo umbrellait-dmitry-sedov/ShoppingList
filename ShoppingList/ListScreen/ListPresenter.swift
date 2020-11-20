@@ -8,19 +8,20 @@
 import Foundation
 
 class ListPresenter {
-    weak var viewController: ListTableViewController!
     
-    var lists = [List]()
+    weak var viewController: ListTableViewController?
+    
+    var products = [Product]()
 
-    init(viewController: ListTableViewController) {
-        self.viewController = viewController
+    init(products: [Product]) {
+        self.products = products
     }
     
-    func addList(_ list: List) {
-        lists.append(list)
+    func addList(_ product: Product) {
+        products.append(product)
     }
     
-    func editlist(_ list: List, indexPath: IndexPath) {
-        lists[indexPath.row] = list
+    func editlist(_ product: Product, at index: Int) {
+        products[index] = product
     }
 }

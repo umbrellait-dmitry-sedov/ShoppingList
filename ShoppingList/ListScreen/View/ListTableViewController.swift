@@ -9,13 +9,19 @@ import UIKit
 
 class ListTableViewController: UITableViewController {
     
-    var listPresenter: ListPresenter!
-
+    let presenter: ListPresenter
+    
+    init(presenter: ListPresenter) {
+        self.presenter = presenter
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        listPresenter = ListPresenter(viewController: ListTableViewController())
-        
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: .addImage,
                                                             style: .plain,
                                                             target: self,
@@ -25,19 +31,14 @@ class ListTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return listPresenter.lists.count
+        return presenter.products.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "tableCell", for: indexPath) as! ListCell
-        
+        let product = presenter.products[indexPath.row]
         cell.delegate = self
-        
-        let list = listPresenter.lists[indexPath.row]
-        cell.itemLabel.text = list.item
-        cell.completed = list.completed
-        cell.priceTextField.text = list.price
-        
+        cell.setProduct(product)
         return cell
     }
     
@@ -46,21 +47,18 @@ class ListTableViewController: UITableViewController {
         ac.addTextField()
         ac.addAction(UIAlertAction(title: "Done", style: .default, handler: { [weak self] action in
             guard let name = ac.textFields?[0].text else { return }
-            self?.listPresenter.addList(List(item: name, completed: false, price: ""))
+            self?.presenter.addList(Product(item: name, completed: false, price: ""))
             self?.tableView.reloadData()
         }))
         present(ac, animated: true)
     }
 }
 
-extension UIImage {
-    static let addImage = UIImage(systemName: "plus.square.on.square.fill",
-                                  withConfiguration: UIImage.SymbolConfiguration(weight: .regular))?.withTintColor(.systemBlue, renderingMode: .alwaysOriginal)
-}
-
 extension ListTableViewController: ListCellDelegate {
-    func cellDidChangePrice(_ cell: ListCell, list: List) {
+    
+    func cellDidChangePrice(_ cell: ListCell, product: Product) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
-        listPresenter.editlist(list, indexPath: indexPath)
+        presenter.editlist(product, at: indexPath.row)
     }
+    
 }
