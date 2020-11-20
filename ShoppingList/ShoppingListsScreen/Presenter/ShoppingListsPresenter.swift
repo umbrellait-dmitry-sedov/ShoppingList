@@ -16,11 +16,6 @@ class ShoppingListsPresenter {
         self.viewController = viewController
         
     }
-    
-    ///The method accepts the raw value of the index of the selected cell and opens the list of the saved cells.
-    func openListBy(identifier: Int) {
-        
-    }
 }
 
 

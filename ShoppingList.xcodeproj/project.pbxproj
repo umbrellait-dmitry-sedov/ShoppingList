@@ -13,6 +13,7 @@
 		3831B7BC2564192F00C250EB /* AuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3831B7BB2564192F00C250EB /* AuthorizationViewController.swift */; };
 		3831B7C12564193000C250EB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3831B7C02564193000C250EB /* Assets.xcassets */; };
 		3831B7C42564193000C250EB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3831B7C22564193000C250EB /* LaunchScreen.storyboard */; };
+		384A0A032567E1C200C40377 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384A0A022567E1C200C40377 /* Coordinator.swift */; };
 		384D7633256523F90014A32A /* AuthorizationPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384D7632256523F90014A32A /* AuthorizationPresenter.swift */; };
 		38804E242566504B008A1108 /* ShoppingListsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38804E232566504B008A1108 /* ShoppingListsModel.swift */; };
 		38804E2B25665AF2008A1108 /* ShoppingListsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38804E2A25665AF2008A1108 /* ShoppingListsCell.swift */; };
@@ -35,6 +36,7 @@
 		3831B7C02564193000C250EB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3831B7C32564193000C250EB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3831B7C52564193000C250EB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		384A0A022567E1C200C40377 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		384D7632256523F90014A32A /* AuthorizationPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationPresenter.swift; sourceTree = "<group>"; };
 		38804E232566504B008A1108 /* ShoppingListsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListsModel.swift; sourceTree = "<group>"; };
 		38804E2A25665AF2008A1108 /* ShoppingListsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListsCell.swift; sourceTree = "<group>"; };
@@ -62,6 +64,7 @@
 		25EF6E6F2567CFD50009652B /* UIEntities */ = {
 			isa = PBXGroup;
 			children = (
+				384A0A022567E1C200C40377 /* Coordinator.swift */,
 				38C260752566BE18006C6FA7 /* RadioButton.swift */,
 			);
 			path = UIEntities;
@@ -275,6 +278,7 @@
 				3831B7B82564192F00C250EB /* AppDelegate.swift in Sources */,
 				3885AE852565366A00EC71E8 /* ShoppingListsPresenter.swift in Sources */,
 				38C2606425668CC9006C6FA7 /* ListTableViewController.swift in Sources */,
+				384A0A032567E1C200C40377 /* Coordinator.swift in Sources */,
 				3831B7BA2564192F00C250EB /* SceneDelegate.swift in Sources */,
 				38C2606C25669668006C6FA7 /* ListPresenter.swift in Sources */,
 				25EF6E732567D03D0009652B /* UIImage+.swift in Sources */,

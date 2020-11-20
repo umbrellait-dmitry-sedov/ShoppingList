@@ -7,7 +7,13 @@
 
 import UIKit
 
+protocol AuthorizationViewControllerDelegate: class {
+    func buttonAction()
+}
+
 class AuthorizationViewController: UIViewController {
+    
+    weak var delegate: AuthorizationViewControllerDelegate?
     
     var loginTextField: UITextField!
     var passwordTextField: UITextField!
@@ -64,7 +70,7 @@ class AuthorizationViewController: UIViewController {
     }
     
     @objc func buttonAction() {
-        self.presenter.logic()
+        delegate?.buttonAction()
     }
     
     func addSubviews() {
