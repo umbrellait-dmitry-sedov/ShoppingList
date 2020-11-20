@@ -8,7 +8,10 @@
 import Foundation
 
 struct ShoppingList {
+    
     let name: String
-    let goods: [Any?]
+    
+    let products: [Product]
+    
 }
 
