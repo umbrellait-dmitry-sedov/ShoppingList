@@ -8,7 +8,7 @@
 import Foundation
 
 struct List {
-    let item: String
-    let completed: Bool
-    let price: String?
+    var item: String
+    var completed: Bool
+    var price: String?
 }

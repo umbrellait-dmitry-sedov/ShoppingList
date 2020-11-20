@@ -31,6 +31,8 @@ class ListTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "tableCell", for: indexPath) as! ListCell
         
+        cell.delegate = self
+        
         let list = listPresenter.lists[indexPath.row]
         cell.itemLabel.text = list.item
         cell.completed = list.completed
@@ -44,7 +46,7 @@ class ListTableViewController: UITableViewController {
         ac.addTextField()
         ac.addAction(UIAlertAction(title: "Done", style: .default, handler: { [weak self] action in
             guard let name = ac.textFields?[0].text else { return }
-            self?.listPresenter.lists.append(List(item: name, completed: true, price: "")) // In Presenter
+            self?.listPresenter.addList(List(item: name, completed: false, price: ""))
             self?.tableView.reloadData()
         }))
         present(ac, animated: true)
@@ -54,4 +56,12 @@ class ListTableViewController: UITableViewController {
 extension UIImage {
     static let addImage = UIImage(systemName: "plus.square.on.square.fill",
                                   withConfiguration: UIImage.SymbolConfiguration(weight: .regular))?.withTintColor(.systemBlue, renderingMode: .alwaysOriginal)
+}
+
+extension ListTableViewController: ListCellDelegate {
+    func cellDidChangePrice(_ cell: ListCell, price: String?, completed: Bool) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        listPresenter.lists[indexPath.row].price = price
+        listPresenter.lists[indexPath.row].completed = completed
+    }
 }

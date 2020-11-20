@@ -7,7 +7,14 @@
 
 import UIKit
 
+protocol ListCellDelegate: class {
+    func cellDidChangePrice(_ cell: ListCell, price: String?, completed: Bool)
+}
+
 class ListCell: UITableViewCell {
+    
+    weak var delegate: ListCellDelegate?
+    
     var itemLabel: UILabel!
     var completedButton: RadioButton!
     var priceTextField: UITextField!
@@ -16,6 +23,8 @@ class ListCell: UITableViewCell {
             completedButton.completed = completed
         }
     }
+    
+    var listPresenter: ListPresenter!
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -27,6 +36,9 @@ class ListCell: UITableViewCell {
         priceTextField = UITextField()
         priceTextField.translatesAutoresizingMaskIntoConstraints = false
         priceTextField.textAlignment = .right
+        priceTextField.keyboardType = .numberPad
+        priceTextField.placeholder = "Enter the price"
+        addDoneButtonOnKeyboard()
         
         completedButton = RadioButton()
         completedButton.translatesAutoresizingMaskIntoConstraints = false
@@ -47,7 +59,7 @@ class ListCell: UITableViewCell {
             completedButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
             completedButton.topAnchor.constraint(equalTo: self.topAnchor),
             completedButton.bottomAnchor.constraint(equalTo: self.bottomAnchor)
- 
+            
         ])
     }
     
@@ -55,9 +67,29 @@ class ListCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private func addDoneButtonOnKeyboard(){
+        let doneToolbar: UIToolbar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
+        doneToolbar.barStyle = .default
+        
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let done: UIBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.doneButtonAction))
+        
+        let items = [flexSpace, done]
+        doneToolbar.items = items
+        doneToolbar.sizeToFit()
+        
+        priceTextField.inputAccessoryView = doneToolbar
+    }
+    ///Этот метод отрабатывает при внесении значения
+    @objc func doneButtonAction(){
+        delegate?.cellDidChangePrice(self, price: priceTextField.text ?? "", completed: completed)
+        priceTextField.resignFirstResponder()
+        
+    }
+    
     ///The method is triggered by pressing the button on the purchase line and switching the colour of the button.
     @objc func completedButtonTapped() {
         completed.toggle()
+        delegate?.cellDidChangePrice(self, price: priceTextField.text ?? "", completed: completed)
     }
-    
 }

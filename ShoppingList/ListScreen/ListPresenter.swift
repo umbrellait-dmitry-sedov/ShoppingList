@@ -15,5 +15,8 @@ class ListPresenter {
     init(viewController: ListTableViewController) {
         self.viewController = viewController
     }
-
+    
+    func addList(_ list: List) {
+        lists.append(list)
+    }
 }
