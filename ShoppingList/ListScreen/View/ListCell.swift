@@ -84,7 +84,6 @@ class ListCell: UITableViewCell {
     @objc func doneButtonAction(){
         delegate?.cellDidChangePrice(self, price: priceTextField.text ?? "", completed: completed)
         priceTextField.resignFirstResponder()
-        
     }
     
     ///The method is triggered by pressing the button on the purchase line and switching the colour of the button.
