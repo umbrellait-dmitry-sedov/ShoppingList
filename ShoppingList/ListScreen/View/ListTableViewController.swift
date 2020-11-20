@@ -59,9 +59,8 @@ extension UIImage {
 }
 
 extension ListTableViewController: ListCellDelegate {
-    func cellDidChangePrice(_ cell: ListCell, price: String?, completed: Bool) {
+    func cellDidChangePrice(_ cell: ListCell, list: List) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
-        listPresenter.lists[indexPath.row].price = price
-        listPresenter.lists[indexPath.row].completed = completed
+        listPresenter.editlist(list, indexPath: indexPath)
     }
 }

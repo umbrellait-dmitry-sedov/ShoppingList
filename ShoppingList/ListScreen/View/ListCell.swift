@@ -8,7 +8,7 @@
 import UIKit
 
 protocol ListCellDelegate: class {
-    func cellDidChangePrice(_ cell: ListCell, price: String?, completed: Bool)
+    func cellDidChangePrice(_ cell: ListCell, list: List)
 }
 
 class ListCell: UITableViewCell {
@@ -80,15 +80,15 @@ class ListCell: UITableViewCell {
         
         priceTextField.inputAccessoryView = doneToolbar
     }
-    ///Этот метод отрабатывает при внесении значения
+    ///This method is worked out when the price value is entered and the button is pressed.
     @objc func doneButtonAction(){
-        delegate?.cellDidChangePrice(self, price: priceTextField.text ?? "", completed: completed)
+        delegate?.cellDidChangePrice(self, list: List(item: itemLabel.text, completed: completed, price: priceTextField.text))
         priceTextField.resignFirstResponder()
     }
     
     ///The method is triggered by pressing the button on the purchase line and switching the colour of the button.
     @objc func completedButtonTapped() {
         completed.toggle()
-        delegate?.cellDidChangePrice(self, price: priceTextField.text ?? "", completed: completed)
+        delegate?.cellDidChangePrice(self, list: List(item: itemLabel.text, completed: completed, price: priceTextField.text))
     }
 }

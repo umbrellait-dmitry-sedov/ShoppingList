@@ -19,4 +19,8 @@ class ListPresenter {
     func addList(_ list: List) {
         lists.append(list)
     }
+    
+    func editlist(_ list: List, indexPath: IndexPath) {
+        lists[indexPath.row] = list
+    }
 }

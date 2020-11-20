@@ -8,7 +8,7 @@
 import Foundation
 
 struct List {
-    var item: String
+    var item: String?
     var completed: Bool
     var price: String?
 }
