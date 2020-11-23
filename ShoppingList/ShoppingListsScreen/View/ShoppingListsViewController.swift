@@ -7,17 +7,23 @@
 
 import UIKit
 
+protocol ShoppingListsViewControllerDelegate: class {
+    func showVC(products: [Product])
+}
+
 class ShoppingListsViewController: UICollectionViewController {
     
-    var shoppingListPresenter: ShoppingListsPresenter!
+    weak var delegate: ShoppingListsViewControllerDelegate?
     
-    let itemsPerRow: CGFloat = 3
+    var presenter: ShoppingListsPresenter!
+    
+    let itemsPerRow: CGFloat = 3.0
     let sectionInsets = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        shoppingListPresenter = ShoppingListsPresenter(viewController: ShoppingListsViewController())
+        presenter = ShoppingListsPresenter(viewController: ShoppingListsViewController())
         
         title = "Shopping Lists"
         
@@ -31,17 +37,17 @@ class ShoppingListsViewController: UICollectionViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: .addImage,
                                                             style: .plain,
                                                             target: self,
-                                                            action: #selector(addListButtonAction))
+                                                            action: #selector(addListButtonPressed))
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return shoppingListPresenter.shoppingLists.count
+        return presenter.shoppingLists.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! ShoppingListsCell
         
-        let list = shoppingListPresenter.shoppingLists[indexPath.item]
+        let list = presenter.shoppingLists[indexPath.item]
 
         cell.label.text = list.name
         cell.backgroundColor = .blue
@@ -50,24 +56,19 @@ class ShoppingListsViewController: UICollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let products = shoppingListPresenter.shoppingLists[indexPath.row].products
+        let products = presenter.shoppingLists[indexPath.row].products
         
-        let presenter = ListPresenter(products: products)
-        let vc = ListTableViewController(presenter: presenter)
-        presenter.viewController = vc
-        
-        self.navigationController?.pushViewController(vc, animated: true)
+        delegate?.showVC(products: products)
     }
     
-    @objc private func addListButtonAction() {
+    @objc private func addListButtonPressed() {
         let ac = UIAlertController(title: nil, message: "Please enter the name of the list", preferredStyle: .alert)
         ac.addTextField()
         ac.addAction(UIAlertAction(title: "Done", style: .default, handler: { [weak self] action in
             guard let name = ac.textFields?[0].text else { return }
-            self?.shoppingListPresenter.shoppingLists.append(ShoppingList(name: name, products: []))
+            self?.presenter.addList(ShoppingList(name: name, products: []))
             self?.collectionView.reloadData()
         }))
         present(ac, animated: true)
     }
-    
 }

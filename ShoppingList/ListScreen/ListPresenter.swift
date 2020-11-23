@@ -17,7 +17,7 @@ class ListPresenter {
         self.products = products
     }
     
-    func addList(_ product: Product) {
+    func addProduct(_ product: Product) {
         products.append(product)
     }
     
