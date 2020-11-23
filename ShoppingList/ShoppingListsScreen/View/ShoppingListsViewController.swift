@@ -17,7 +17,7 @@ class ShoppingListsViewController: UICollectionViewController {
     
     var presenter: ShoppingListsPresenter!
     
-    let itemsPerRow: CGFloat = 3
+    let itemsPerRow: CGFloat = 3.0
     let sectionInsets = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
     
     override func viewDidLoad() {
@@ -37,7 +37,7 @@ class ShoppingListsViewController: UICollectionViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: .addImage,
                                                             style: .plain,
                                                             target: self,
-                                                            action: #selector(addListButtonAction))
+                                                            action: #selector(addListButtonPressed))
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -58,18 +58,15 @@ class ShoppingListsViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let products = presenter.shoppingLists[indexPath.row].products
         
-        print("tapped")
-        
         delegate?.showVC(products: products)
-        
     }
     
-    @objc private func addListButtonAction() {
+    @objc private func addListButtonPressed() {
         let ac = UIAlertController(title: nil, message: "Please enter the name of the list", preferredStyle: .alert)
         ac.addTextField()
         ac.addAction(UIAlertAction(title: "Done", style: .default, handler: { [weak self] action in
             guard let name = ac.textFields?[0].text else { return }
-            self?.presenter.shoppingLists.append(ShoppingList(name: name, products: []))
+            self?.presenter.addList(ShoppingList(name: name, products: []))
             self?.collectionView.reloadData()
         }))
         present(ac, animated: true)

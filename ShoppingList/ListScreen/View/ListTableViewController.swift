@@ -47,7 +47,7 @@ class ListTableViewController: UITableViewController {
         ac.addTextField()
         ac.addAction(UIAlertAction(title: "Done", style: .default, handler: { [weak self] action in
             guard let name = ac.textFields?[0].text else { return }
-            self?.presenter.addList(Product(item: name, completed: false, price: ""))
+            self?.presenter.addProduct(Product(item: name, completed: false, price: ""))
             self?.tableView.reloadData()
         }))
         present(ac, animated: true)

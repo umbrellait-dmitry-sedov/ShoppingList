@@ -40,7 +40,7 @@ final class Coordinator {
 }
 
 extension Coordinator: AuthorizationViewControllerDelegate {
-    func buttonAction() {
+    func loginButtonPressed() {
         showShoppingListsScreen()
     }
 }

@@ -16,6 +16,10 @@ class ShoppingListsPresenter {
         self.viewController = viewController
         
     }
+    
+    func addList(_ list: ShoppingList) {
+        shoppingLists.append(list)
+    }
 }
 
 

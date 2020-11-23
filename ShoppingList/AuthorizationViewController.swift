@@ -8,18 +8,53 @@
 import UIKit
 
 protocol AuthorizationViewControllerDelegate: class {
-    func buttonAction()
+    func loginButtonPressed()
 }
 
 class AuthorizationViewController: UIViewController {
     
     weak var delegate: AuthorizationViewControllerDelegate?
     
-    var loginTextField: UITextField!
-    var passwordTextField: UITextField!
-    var loginButton: UIButton!
-    var registrationButton: UIButton!
-    var stackView: UIStackView!
+    lazy var loginTextField: UITextField = {
+        let loginTextField = UITextField()
+        loginTextField.translatesAutoresizingMaskIntoConstraints = false
+        loginTextField.placeholder = "login, email or phone number"
+        loginTextField.backgroundColor = .white
+        loginTextField.layer.cornerRadius = 5
+        return loginTextField
+    }()
+    var passwordTextField: UITextField = {
+        let passwordTextField = UITextField()
+        passwordTextField.translatesAutoresizingMaskIntoConstraints = false
+        passwordTextField.placeholder = "password"
+        passwordTextField.backgroundColor = .white
+        passwordTextField.layer.cornerRadius = 5
+        return passwordTextField
+    }()
+    var loginButton: UIButton = {
+        let loginButton = UIButton()
+        loginButton.translatesAutoresizingMaskIntoConstraints = false
+        loginButton.setTitle("Login", for: .normal)
+        loginButton.backgroundColor = .blue
+        loginButton.layer.cornerRadius = 5
+        loginButton.addTarget(self, action: #selector(loginButtonPressed), for: .touchUpInside)
+        return loginButton
+    }()
+    var registrationButton: UIButton = {
+        let registrationButton = UIButton()
+        registrationButton.translatesAutoresizingMaskIntoConstraints = false
+        registrationButton.setTitle("Registration", for: .normal)
+        return registrationButton
+    }()
+    var stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.distribution = .fillEqually
+        stackView.spacing = 10
+        return stackView
+    }()
     
     var presenter: AuthorizationPresenter!
     
@@ -32,45 +67,14 @@ class AuthorizationViewController: UIViewController {
         super.loadView()
         
         view.backgroundColor = .orange
-        
         title = "Authorization"
-        
-        loginTextField = UITextField()
-        loginTextField.translatesAutoresizingMaskIntoConstraints = false
-        loginTextField.placeholder = "login, email or phone number"
-        loginTextField.backgroundColor = .white
-        loginTextField.layer.cornerRadius = 5
-        
-        passwordTextField = UITextField()
-        passwordTextField.translatesAutoresizingMaskIntoConstraints = false
-        passwordTextField.placeholder = "password"
-        passwordTextField.backgroundColor = .white
-        passwordTextField.layer.cornerRadius = 5
-        
-        loginButton = UIButton()
-        loginButton.translatesAutoresizingMaskIntoConstraints = false
-        loginButton.setTitle("Login", for: .normal)
-        loginButton.backgroundColor = .blue
-        loginButton.layer.cornerRadius = 5
-        loginButton.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
-        
-        registrationButton = UIButton()
-        registrationButton.translatesAutoresizingMaskIntoConstraints = false
-        registrationButton.setTitle("Registration", for: .normal)
-        
-        stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-        stackView.alignment = .fill
-        stackView.distribution = .fillEqually
-        stackView.spacing = 10
         
         addSubviews()
         setupConstraints()
     }
     
-    @objc func buttonAction() {
-        delegate?.buttonAction()
+    @objc func loginButtonPressed() {
+        delegate?.loginButtonPressed()
     }
     
     func addSubviews() {
