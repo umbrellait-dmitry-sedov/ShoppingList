@@ -8,6 +8,6 @@ target 'ShoppingList' do
 
   # Pods for ShoppingList
   pod 'Firebase'
-  Pod 'Firebase/Auth'
+  pod 'Firebase/Auth'
 
 end
