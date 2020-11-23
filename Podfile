@@ -1,6 +1,6 @@
 # add pods for desired Firebase products
 # https://firebase.google.com/docs/ios/setup#available-pods
-platform :ios, '9.0'
+platform :ios, '13.0'
 
 target 'ShoppingList' do
   # Comment the next line if you don't want to use dynamic frameworks
