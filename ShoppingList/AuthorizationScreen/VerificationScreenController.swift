@@ -7,13 +7,23 @@
 
 import UIKit
 
+protocol VerificationScreenControllerDelegate: class {
+    func showVC()
+}
+
 class VerificationScreenController: UIViewController {
+    
+    // MARK: - Properties
     
     var codeTextField: UITextField!
     var continueButton: UIButton!
     var stackView: UIStackView!
     
-    var presenter: AuthorizationPresenter?		
+    var presenter: AuthorizationPresenter?
+    
+    weak var delegate: VerificationScreenControllerDelegate?
+    
+    // MARK: - Override Methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,8 +63,11 @@ class VerificationScreenController: UIViewController {
         setupConstraints()
     }
     
+    // MARK: - Methods
+    
     @objc func continueButtonPressed(sender: UIButton!) {
         self.presenter?.auth(verificationCode: codeTextField.text ?? "")
+        delegate?.showVC()
     }
     
     func addSubviews() {
@@ -75,6 +88,8 @@ class VerificationScreenController: UIViewController {
     }
 
 }
+
+// MARK: - Extensions
 
 extension VerificationScreenController: AuthorizationView {
     

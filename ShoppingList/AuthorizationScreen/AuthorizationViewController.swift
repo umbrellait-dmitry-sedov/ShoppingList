@@ -1,5 +1,9 @@
 import UIKit
 
+protocol AuthorizationViewControllerDelegate: class {
+    func loginButtonPressed()
+}
+
 class AuthorizationViewController: UIViewController {
     
     // MARK: - Properties
@@ -10,6 +14,8 @@ class AuthorizationViewController: UIViewController {
     var continueButton: UIButton!
     
     var presenter: AuthorizationPresenter?
+    
+    weak var delegate: AuthorizationViewControllerDelegate?
     
     // MARK: - Override Methods
     
@@ -37,7 +43,7 @@ class AuthorizationViewController: UIViewController {
         loginButton.setTitle("Sign Up", for: .normal)
         loginButton.backgroundColor = .blue
         loginButton.layer.cornerRadius = 5
-        loginButton.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+        loginButton.addTarget(self, action: #selector(loginButtonPressed), for: .touchUpInside)
         
         
         stackView = UIStackView()
@@ -53,10 +59,9 @@ class AuthorizationViewController: UIViewController {
     
     // MARK: - Methods
     
-    @objc func buttonAction(sender: UIButton!) {
+    @objc func loginButtonPressed(sender: UIButton!) {
         self.presenter?.getVerificationID(phoneNumber: loginTextField.text ?? "")
-//        let shoppingListVC = VerificationScreenController()
-//        navigationController?.pushViewController(shoppingListVC, animated: true)
+        delegate?.loginButtonPressed()
     }
     
     

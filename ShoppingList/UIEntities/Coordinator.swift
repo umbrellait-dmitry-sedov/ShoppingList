@@ -24,6 +24,14 @@ final class Coordinator {
         window.rootViewController = navigationController
     }
     
+    func showVerificationScreen() {
+        let vc = VerificationScreenController()
+        vc.delegate = self
+        let navigationController = UINavigationController(rootViewController: vc)
+        self.navigationController = navigationController
+        window.rootViewController = navigationController
+    }
+    
     func showShoppingListsScreen() {
         let vc = ShoppingListsViewController(collectionViewLayout: UICollectionViewFlowLayout())
         vc.delegate = self
@@ -41,12 +49,18 @@ final class Coordinator {
 
 extension Coordinator: AuthorizationViewControllerDelegate {
     func loginButtonPressed() {
-        showShoppingListsScreen()
+        showVerificationScreen()
     }
 }
 
 extension Coordinator: ShoppingListsViewControllerDelegate {
     func showVC(products: [Product]) {
         showListScreen(products: products)
+    }
+}
+
+extension Coordinator: VerificationScreenControllerDelegate {
+    func showVC(){
+        showShoppingListsScreen()
     }
 }
