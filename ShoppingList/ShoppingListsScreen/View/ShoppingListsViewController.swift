@@ -7,11 +7,17 @@
 
 import UIKit
 
+protocol ShoppingListsViewControllerDelegate: class {
+    func showVC(products: [Product])
+}
+
 class ShoppingListsViewController: UICollectionViewController {
+    
+    weak var delegate: ShoppingListsViewControllerDelegate?
     
     var presenter: ShoppingListsPresenter!
     
-    let itemsPerRow: CGFloat = 3
+    let itemsPerRow: CGFloat = 3.0
     let sectionInsets = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
     
     override func viewDidLoad() {
@@ -28,20 +34,10 @@ class ShoppingListsViewController: UICollectionViewController {
     
     override func loadView() {
         super.loadView()
-        
-        let imageFromAddButton = UIImage(systemName: "plus.square.on.square.fill", withConfiguration: UIImage.SymbolConfiguration(weight: .regular))?.withTintColor(.systemBlue, renderingMode: .alwaysOriginal)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: imageFromAddButton, style: .plain, target: self, action: #selector(addListButtonAction))
-    }
-    
-    @objc func addListButtonAction() {
-        let ac = UIAlertController(title: nil, message: "Please enter the name of the list", preferredStyle: .alert)
-        ac.addTextField()
-        ac.addAction(UIAlertAction(title: "Done", style: .default, handler: { [weak self] action in
-            guard let name = ac.textFields?[0].text else { return }
-            self?.presenter.shoppingLists.append(ShoppingList(name: name, goods: [nil]))
-            self?.collectionView.reloadData()
-        }))
-        present(ac, animated: true)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: .addImage,
+                                                            style: .plain,
+                                                            target: self,
+                                                            action: #selector(addListButtonPressed))
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -58,27 +54,21 @@ class ShoppingListsViewController: UICollectionViewController {
         cell.layer.cornerRadius = 10
         return cell
     }
-}
-
-extension ShoppingListsViewController: UICollectionViewDelegateFlowLayout {
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let paddingWidth: CGFloat = sectionInsets.left * (itemsPerRow + 1)
-        let availableWidth = collectionView.frame.width - paddingWidth
-        let widthPerItem = availableWidth / itemsPerRow
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let products = presenter.shoppingLists[indexPath.row].products
         
-        return CGSize(width: widthPerItem, height: widthPerItem + 20)
+        delegate?.showVC(products: products)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return sectionInsets
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return sectionInsets.left
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return sectionInsets.left
+    @objc private func addListButtonPressed() {
+        let ac = UIAlertController(title: nil, message: "Please enter the name of the list", preferredStyle: .alert)
+        ac.addTextField()
+        ac.addAction(UIAlertAction(title: "Done", style: .default, handler: { [weak self] action in
+            guard let name = ac.textFields?[0].text else { return }
+            self?.presenter.addList(ShoppingList(name: name, products: []))
+            self?.collectionView.reloadData()
+        }))
+        present(ac, animated: true)
     }
 }

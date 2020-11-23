@@ -14,8 +14,4 @@ class AuthorizationPresenter {
     init(viewController: AuthorizationViewController) {
         self.viewController = viewController
     }
-    
-    func logic() {
-        
-    }
 }

@@ -17,9 +17,8 @@ class ShoppingListsPresenter {
         
     }
     
-    ///The method accepts the raw value of the index of the selected cell and opens the list of the saved cells.
-    func openListBy(identifier: Int) {
-        
+    func addList(_ list: ShoppingList) {
+        shoppingLists.append(list)
     }
 }
 
