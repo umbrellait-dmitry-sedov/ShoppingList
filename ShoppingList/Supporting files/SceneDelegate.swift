@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
 
         coordinator = Coordinator(window: window)
-        coordinator.showShoppingListsScreen()
+        coordinator.showStartScreen()
         
         self.window = window
         window.makeKeyAndVisible()

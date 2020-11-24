@@ -20,7 +20,7 @@ class AddUsersPresenter {
         self.viewController = viewController
     }
     
-    func fetchData() {
+    func fetchData(completion: @escaping () -> Void) {
         db.collection("users").getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
@@ -30,8 +30,7 @@ class AddUsersPresenter {
                     print(user)
                     self.addUsers(user: user)
                 }
-                guard let vc = self.viewController else { return }
-                vc.tableView.reloadData()
+                completion()
             }
         }
     }

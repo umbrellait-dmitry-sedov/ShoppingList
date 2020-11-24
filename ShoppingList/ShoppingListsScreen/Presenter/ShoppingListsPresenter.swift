@@ -8,7 +8,7 @@
 import Foundation
 
 class ShoppingListsPresenter {
-    weak var viewController: ShoppingListsViewController!
+    weak var viewController: ShoppingListsViewController?
     
     var shoppingLists = [ShoppingList]()
 

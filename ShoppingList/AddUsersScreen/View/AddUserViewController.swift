@@ -17,7 +17,9 @@ class AddUserViewController: UITableViewController {
 
         presenter = AddUsersPresenter(viewController: self)
         
-        presenter.fetchData()
+        presenter.fetchData() { [weak self] in
+            self?.tableView.reloadData()
+        }
 
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "userCell")
         

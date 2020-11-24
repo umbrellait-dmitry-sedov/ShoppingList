@@ -11,8 +11,8 @@ class AuthorizationPresenter {
     
     let db = Firestore.firestore()
 
-    private weak var authorizatonView: AuthorizationViewController!
-    private weak var verificationView: VerificationViewController!
+    private weak var authorizatonView: AuthorizationViewController?
+    private weak var verificationView: VerificationViewController?
     
     init(viewController: AuthorizationViewController) {
         self.authorizatonView = viewController
@@ -28,13 +28,14 @@ class AuthorizationPresenter {
         PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber,
                                                        uiDelegate: nil) { verificationID, error in
             if error != nil {
-                self.authorizatonView.showAlert(title: "Error", message: error?.localizedDescription ?? "")
+                self.authorizatonView?.showAlert(title: "Error", message: error?.localizedDescription ?? "")
                 return
             }
             
             // Сохраняем его в UserDefaults для метода auth
             UserDefaults.standard.setValue(verificationID, forKey: "authVerificationID")
             UserDefaults.standard.setValue(phoneNumber, forKey: "phoneNumber")
+            UserDefaults.standard.setValue(authorizatonView?.nameTextField.text, forKey: "phoneNumber")
         }
     }
     
@@ -51,10 +52,10 @@ class AuthorizationPresenter {
             else {
                 /// Здесь уже юзер залогинился
                 /// Алерт нужен для проверки, что пользователь авторизовался успешно
-                //self.verificationView.showAlert(title: "Success", message: "YEAH")
+                self.verificationView?.showAlert(title: "Success", message: "YEAH")
                 self.db.collection("users").addDocument(data: [
                     "id": "\(verificationID ?? "")",
-                    "name": self.authorizatonView.nameTextField.text ?? "",
+                    "name": self.authorizatonView?.nameTextField.text ?? "",
                     "phoneNumber": UserDefaults.standard.value(forKey: "phoneNumber") as? String ?? ""
                 ]) { err in
                     if let err = err {
