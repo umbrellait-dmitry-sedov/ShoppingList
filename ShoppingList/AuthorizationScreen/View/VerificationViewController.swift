@@ -7,28 +7,50 @@
 
 import UIKit
 
-protocol VerificationScreenControllerDelegate: class {
-    func showVC()
+protocol VerificationViewControllerDelegate: class {
+    func showShoppingListVC()
 }
 
-class VerificationScreenController: UIViewController {
+class VerificationViewController: UIViewController {
     
-    // MARK: - Properties
-    
-    var codeTextField: UITextField!
-    var continueButton: UIButton!
-    var stackView: UIStackView!
+    var codeTextField: UITextField = {
+        let codeTextField = UITextField()
+        codeTextField.translatesAutoresizingMaskIntoConstraints = false
+        codeTextField.placeholder = "Enter the verification code"
+        codeTextField.backgroundColor = .white
+        codeTextField.layer.cornerRadius = 5
+        codeTextField.textColor = UIColor.black
+        return codeTextField
+    }()
+    var continueButton: UIButton = {
+        let continueButton = UIButton()
+        continueButton.translatesAutoresizingMaskIntoConstraints = false
+        continueButton.setTitle("VERIFY & CONTINUE", for: .normal)
+        continueButton.backgroundColor = .red
+        continueButton.layer.cornerRadius = 5
+        continueButton.addTarget(self, action: #selector(continueButtonPressed), for: .touchUpInside)
+        return continueButton
+    }()
+    var stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.distribution = .fillEqually
+        stackView.spacing = 10
+        return stackView
+    }()
     
     var presenter: AuthorizationPresenter?
     
-    weak var delegate: VerificationScreenControllerDelegate?
+    weak var delegate: VerificationViewControllerDelegate?
     
     // MARK: - Override Methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        presenter = AuthorizationPresenter(self)
+        presenter = AuthorizationPresenter(viewController: self)
         
     }
     
@@ -37,28 +59,7 @@ class VerificationScreenController: UIViewController {
         title = "Authorization"
         
         view.backgroundColor = .white
-        
-        codeTextField = UITextField()
-        codeTextField.translatesAutoresizingMaskIntoConstraints = false
-        codeTextField.placeholder = "Enter the verification code"
-        codeTextField.backgroundColor = .white
-        codeTextField.layer.cornerRadius = 5
-        codeTextField.textColor = UIColor.black
-        
-        continueButton = UIButton()
-        continueButton.translatesAutoresizingMaskIntoConstraints = false
-        continueButton.setTitle("VERIFY & CONTINUE", for: .normal)
-        continueButton.backgroundColor = .red
-        continueButton.layer.cornerRadius = 5
-        continueButton.addTarget(self, action: #selector(continueButtonPressed), for: .touchUpInside)
-        
-        stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-        stackView.alignment = .fill
-        stackView.distribution = .fillEqually
-        stackView.spacing = 10
-        
+
         addSubviews()
         setupConstraints()
     }
@@ -67,7 +68,7 @@ class VerificationScreenController: UIViewController {
     
     @objc func continueButtonPressed(sender: UIButton!) {
         self.presenter?.auth(verificationCode: codeTextField.text ?? "")
-        delegate?.showVC()
+        delegate?.showShoppingListVC()
     }
     
     func addSubviews() {
@@ -86,17 +87,10 @@ class VerificationScreenController: UIViewController {
             
         ])
     }
-
-}
-
-// MARK: - Extensions
-
-extension VerificationScreenController: AuthorizationView {
     
     func showAlert(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .cancel))
-        self.present(alertController, animated: true, completion: nil)
+        present(alertController, animated: true)
     }
-    
 }

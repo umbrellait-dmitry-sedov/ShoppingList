@@ -6,22 +6,50 @@ protocol AuthorizationViewControllerDelegate: class {
 
 class AuthorizationViewController: UIViewController {
     
-    // MARK: - Properties
-    
-    var loginTextField: UITextField!
-    var loginButton: UIButton!
-    var stackView: UIStackView!
-    var continueButton: UIButton!
+    var nameTextField: UITextField = {
+        let nameTextField = UITextField()
+        nameTextField.translatesAutoresizingMaskIntoConstraints = false
+        nameTextField.placeholder = "Enter the name"
+        nameTextField.backgroundColor = .white
+        nameTextField.layer.cornerRadius = 5
+        nameTextField.textColor = UIColor.black
+        return nameTextField
+    }()
+    var loginTextField: UITextField = {
+        let loginTextField = UITextField()
+        loginTextField.translatesAutoresizingMaskIntoConstraints = false
+        loginTextField.placeholder = "Enter the phone number"
+        loginTextField.backgroundColor = .white
+        loginTextField.layer.cornerRadius = 5
+        loginTextField.textColor = UIColor.black
+        return loginTextField
+    }()
+    var loginButton: UIButton = {
+        let loginButton = UIButton()
+        loginButton.translatesAutoresizingMaskIntoConstraints = false
+        loginButton.setTitle("Sign Up", for: .normal)
+        loginButton.backgroundColor = .blue
+        loginButton.layer.cornerRadius = 5
+        loginButton.addTarget(self, action: #selector(loginButtonPressed), for: .touchUpInside)
+        return loginButton
+    }()
+    var stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.distribution = .fillEqually
+        stackView.spacing = 10
+        return stackView
+    }()
     
     var presenter: AuthorizationPresenter?
     
     weak var delegate: AuthorizationViewControllerDelegate?
     
-    // MARK: - Override Methods
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        presenter = AuthorizationPresenter(self)
+        presenter = AuthorizationPresenter(viewController: self)
     }
     
     override func loadView() {
@@ -30,42 +58,18 @@ class AuthorizationViewController: UIViewController {
         view.backgroundColor = .orange
         
         title = "Authorization"
-        
-        loginTextField = UITextField()
-        loginTextField.translatesAutoresizingMaskIntoConstraints = false
-        loginTextField.placeholder = "Enter the phone number"
-        loginTextField.backgroundColor = .white
-        loginTextField.layer.cornerRadius = 5
-        loginTextField.textColor = UIColor.black
-        
-        loginButton = UIButton()
-        loginButton.translatesAutoresizingMaskIntoConstraints = false
-        loginButton.setTitle("Sign Up", for: .normal)
-        loginButton.backgroundColor = .blue
-        loginButton.layer.cornerRadius = 5
-        loginButton.addTarget(self, action: #selector(loginButtonPressed), for: .touchUpInside)
-        
-        
-        stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-        stackView.alignment = .fill
-        stackView.distribution = .fillEqually
-        stackView.spacing = 10
-        
+
         addSubviews()
         setupConstraints()
     }
-    
-    // MARK: - Methods
     
     @objc func loginButtonPressed(sender: UIButton!) {
         self.presenter?.getVerificationID(phoneNumber: loginTextField.text ?? "")
         delegate?.loginButtonPressed()
     }
     
-    
     func addSubviews() {
+        self.stackView.addArrangedSubview(nameTextField)
         self.stackView.addArrangedSubview(loginTextField)
         self.stackView.addArrangedSubview(loginButton)
         self.view.addSubview(stackView)
@@ -82,15 +86,9 @@ class AuthorizationViewController: UIViewController {
         ])
     }
     
-}
-
-// MARK: - Extensions
-
-extension AuthorizationViewController: AuthorizationView {
-    
     func showAlert(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .cancel))
-        self.present(alertController, animated: true, completion: nil)
+        present(alertController, animated: true)
     }
 }

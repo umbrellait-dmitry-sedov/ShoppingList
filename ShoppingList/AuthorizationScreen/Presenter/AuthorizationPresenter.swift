@@ -6,19 +6,21 @@
 //
 
 import Firebase
-import FirebaseAuth
 
 class AuthorizationPresenter {
     
-    // MARK: - Properties
-    private let view: AuthorizationView
+    let db = Firestore.firestore()
+
+    private weak var authorizatonView: AuthorizationViewController!
+    private weak var verificationView: VerificationViewController!
     
-    // MARK: - Initialize
-    init(_ view: AuthorizationView) {
-        self.view = view
+    init(viewController: AuthorizationViewController) {
+        self.authorizatonView = viewController
     }
     
-    // MARK: - Methods
+    init(viewController: VerificationViewController) {
+        self.verificationView = viewController
+    }
     
     /// Получаем ID для подтверждения номера телефона
     public func getVerificationID(phoneNumber: String) {
@@ -26,10 +28,22 @@ class AuthorizationPresenter {
         PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber,
                                                        uiDelegate: nil) { verificationID, error in
             if error != nil {
-                self.view.showAlert(title: "Error", message: error?.localizedDescription ?? "")
+                self.authorizatonView.showAlert(title: "Error", message: error?.localizedDescription ?? "")
                 return
             }
-            /// Сохраняем его в UserDefaults для метода auth
+            self.db.collection("users").addDocument(data: [
+                "id": "\(verificationID ?? "")",
+                "name": self.authorizatonView.nameTextField.text ?? "",
+                "phoneNumber": "\(phoneNumber)"
+            ]) { err in
+                if let err = err {
+                    print("Error adding document: \(err)")
+                } else {
+                    print("Document added with ID: ")
+                }
+            }
+            
+            // Сохраняем его в UserDefaults для метода auth
             UserDefaults.standard.setValue(verificationID, forKey: "authVerificationID")
         }
     }
@@ -41,17 +55,15 @@ class AuthorizationPresenter {
         let credential = PhoneAuthProvider.provider().credential(withVerificationID: verificationID ?? "", verificationCode: verificationCode)
         Auth.auth().signIn(with: credential) { (authResult, error) in
             if error != nil {
-                self.view.showAlert(title: "Error", message: error?.localizedDescription ?? "")
+                //self.verificationView.showAlert(title: "Error", message: error?.localizedDescription ?? "")
                 return
             }
             else {
                 /// Здесь уже юзер залогинился
                 /// Алерт нужен для проверки, что пользователь авторизовался успешно
-                self.view.showAlert(title: "Success", message: "YEAH")
+                //self.verificationView.showAlert(title: "Success", message: "YEAH")
                 print(authResult.debugDescription)
             }
-            
         }
     }
-    
 }

@@ -25,24 +25,33 @@ final class Coordinator {
     }
     
     func showVerificationScreen() {
-        let vc = VerificationScreenController()
+        let vc = VerificationViewController()
         vc.delegate = self
-        let navigationController = UINavigationController(rootViewController: vc)
-        self.navigationController = navigationController
-        window.rootViewController = navigationController
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     func showShoppingListsScreen() {
         let vc = ShoppingListsViewController(collectionViewLayout: UICollectionViewFlowLayout())
         vc.delegate = self
         navigationController?.pushViewController(vc, animated: true)
+        
+        //need to skip authentification
+        let navigationController = UINavigationController(rootViewController: vc)
+        self.navigationController = navigationController
+        window.rootViewController = navigationController
     }
     
     func showListScreen(products: [Product]) {
         let presenter = ListPresenter(products: products)
         let vc = ListTableViewController(presenter: presenter)
+        vc.delegate = self
         presenter.viewController = vc
         
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func showAddUserScreen() {
+        let vc = AddUserViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
 }
@@ -59,8 +68,14 @@ extension Coordinator: ShoppingListsViewControllerDelegate {
     }
 }
 
-extension Coordinator: VerificationScreenControllerDelegate {
-    func showVC(){
+extension Coordinator: VerificationViewControllerDelegate {
+    func showShoppingListVC() {
         showShoppingListsScreen()
+    }
+}
+
+extension Coordinator: ListTableViewControllerDelegate {
+    func showAddUserVC() {
+        showAddUserScreen()
     }
 }

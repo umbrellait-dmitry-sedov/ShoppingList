@@ -9,5 +9,6 @@ target 'ShoppingList' do
   # Pods for ShoppingList
   pod 'Firebase'
   pod 'Firebase/Auth'
+  pod 'Firebase/Firestore'
 
 end
