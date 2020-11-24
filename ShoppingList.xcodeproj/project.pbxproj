@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2589CD87256D521800695DF5 /* UserDefaultsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2589CD86256D521800695DF5 /* UserDefaultsService.swift */; };
+		25991B80256D4278000C4D43 /* VerificationPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25991B7F256D4278000C4D43 /* VerificationPresenter.swift */; };
+		25BCBA98256D4B7600576EE8 /* AuthorizationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BCBA97256D4B7600576EE8 /* AuthorizationData.swift */; };
 		25EF6E732567D03D0009652B /* UIImage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EF6E722567D03D0009652B /* UIImage+.swift */; };
 		3831B7B82564192F00C250EB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3831B7B72564192F00C250EB /* AppDelegate.swift */; };
 		3831B7BA2564192F00C250EB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3831B7B92564192F00C250EB /* SceneDelegate.swift */; };
@@ -34,6 +37,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2589CD86256D521800695DF5 /* UserDefaultsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsService.swift; sourceTree = "<group>"; };
+		25991B7F256D4278000C4D43 /* VerificationPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationPresenter.swift; sourceTree = "<group>"; };
+		25BCBA97256D4B7600576EE8 /* AuthorizationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationData.swift; sourceTree = "<group>"; };
 		25EF6E722567D03D0009652B /* UIImage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+.swift"; sourceTree = "<group>"; };
 		2741D5EE3E5888E1473D2397 /* Pods_ShoppingList.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShoppingList.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3831B7B42564192F00C250EB /* ShoppingList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShoppingList.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -76,6 +82,47 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2589CD85256D520C00695DF5 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				2589CD86256D521800695DF5 /* UserDefaultsService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		25991B7C256D4252000C4D43 /* VerificationScreen */ = {
+			isa = PBXGroup;
+			children = (
+				25991B7E256D4269000C4D43 /* Presenter */,
+				25991B7D256D4265000C4D43 /* View */,
+			);
+			path = VerificationScreen;
+			sourceTree = "<group>";
+		};
+		25991B7D256D4265000C4D43 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4A30C548256B9ED30034B318 /* VerificationViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		25991B7E256D4269000C4D43 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				25991B7F256D4278000C4D43 /* VerificationPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		25BCBA99256D4B7900576EE8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				25BCBA97256D4B7600576EE8 /* AuthorizationData.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		25EF6E6F2567CFD50009652B /* UIEntities */ = {
 			isa = PBXGroup;
 			children = (
@@ -121,6 +168,8 @@
 		3831B7B62564192F00C250EB /* ShoppingList */ = {
 			isa = PBXGroup;
 			children = (
+				2589CD85256D520C00695DF5 /* Services */,
+				25991B7C256D4252000C4D43 /* VerificationScreen */,
 				4A30C544256B9ED30034B318 /* AuthorizationScreen */,
 				3885AE8B256551DC00EC71E8 /* ShoppingListsScreen */,
 				38C2605F25668C4C006C6FA7 /* ListScreen */,
@@ -245,7 +294,6 @@
 			isa = PBXGroup;
 			children = (
 				4A30C546256B9ED30034B318 /* AuthorizationViewController.swift */,
-				4A30C548256B9ED30034B318 /* VerificationViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -287,6 +335,7 @@
 		4A30C544256B9ED30034B318 /* AuthorizationScreen */ = {
 			isa = PBXGroup;
 			children = (
+				25BCBA99256D4B7900576EE8 /* Model */,
 				38F187A1256CE104003C37AD /* Presenter */,
 				38F187A4256CE115003C37AD /* View */,
 			);
@@ -420,6 +469,7 @@
 				4A30C54C256B9ED30034B318 /* VerificationViewController.swift in Sources */,
 				4A30C54A256B9ED30034B318 /* AuthorizationViewController.swift in Sources */,
 				38C260762566BE18006C6FA7 /* RadioButton.swift in Sources */,
+				2589CD87256D521800695DF5 /* UserDefaultsService.swift in Sources */,
 				38804E2B25665AF2008A1108 /* ShoppingListsCell.swift in Sources */,
 				4A30C549256B9ED30034B318 /* AuthorizationPresenter.swift in Sources */,
 				38C26070256697C5006C6FA7 /* Product.swift in Sources */,
@@ -431,9 +481,11 @@
 				3885AE852565366A00EC71E8 /* ShoppingListsPresenter.swift in Sources */,
 				38C2606425668CC9006C6FA7 /* ListTableViewController.swift in Sources */,
 				384A0A032567E1C200C40377 /* Coordinator.swift in Sources */,
+				25991B80256D4278000C4D43 /* VerificationPresenter.swift in Sources */,
 				3831B7BA2564192F00C250EB /* SceneDelegate.swift in Sources */,
 				38C2606C25669668006C6FA7 /* ListPresenter.swift in Sources */,
 				25EF6E732567D03D0009652B /* UIImage+.swift in Sources */,
+				25BCBA98256D4B7600576EE8 /* AuthorizationData.swift in Sources */,
 				38C2606825668F4C006C6FA7 /* ShoppingListsViewController+UICollectionViewDelegateFlowLayout.swift in Sources */,
 				38804E242566504B008A1108 /* ShoppingListsModel.swift in Sources */,
 			);

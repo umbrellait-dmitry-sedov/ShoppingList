@@ -8,7 +8,11 @@
 import UIKit
 
 protocol ShoppingListsViewControllerDelegate: class {
+    
     func showVC(products: [Product])
+    
+    func didLogOut()
+    
 }
 
 class ShoppingListsViewController: UICollectionViewController {
@@ -38,6 +42,10 @@ class ShoppingListsViewController: UICollectionViewController {
                                                             style: .plain,
                                                             target: self,
                                                             action: #selector(addListButtonPressed))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Log Out",
+                                                           style: .plain,
+                                                           target: self,
+                                                           action: #selector(handleLeftItem))
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -70,5 +78,17 @@ class ShoppingListsViewController: UICollectionViewController {
             self?.collectionView.reloadData()
         }))
         present(ac, animated: true)
+    }
+    
+    @objc private func handleLeftItem(_ item: UIBarButtonItem) {
+        presenter.logOut { [weak self] (result) in
+            switch result {
+            case .success:
+                self?.delegate?.didLogOut()
+                
+            case let .failure(error):
+                fatalError(error.localizedDescription)
+            }
+        }
     }
 }

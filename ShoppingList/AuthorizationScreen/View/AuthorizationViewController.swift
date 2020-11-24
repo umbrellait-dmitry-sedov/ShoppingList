@@ -1,7 +1,9 @@
 import UIKit
 
 protocol AuthorizationViewControllerDelegate: class {
-    func loginButtonPressed()
+    
+    func didRecieveVerificationId(authorizationData: AuthorizationData)
+    
 }
 
 class AuthorizationViewController: UIViewController {
@@ -64,8 +66,18 @@ class AuthorizationViewController: UIViewController {
     }
     
     @objc func loginButtonPressed(sender: UIButton!) {
-        self.presenter?.getVerificationID(phoneNumber: loginTextField.text ?? "")
-        delegate?.loginButtonPressed()
+        presenter?.getVerificationID(phoneNumber: loginTextField.text ?? "", completion: { [weak self] (result) in
+            switch result {
+            case let .success(data):
+                let authorizationData = AuthorizationData(verificationId: data.1,
+                                                          phoneNumber: data.0,
+                                                          name: self?.nameTextField.text ?? "")
+                self?.delegate?.didRecieveVerificationId(authorizationData: authorizationData)
+                
+            case let .failure(error):
+                self?.showAlert(title: "Error", message: error.localizedDescription)
+            }
+        })
     }
     
     func addSubviews() {

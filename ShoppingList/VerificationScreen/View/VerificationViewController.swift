@@ -41,17 +41,30 @@ class VerificationViewController: UIViewController {
         return stackView
     }()
     
-    var presenter: AuthorizationPresenter?
+    var presenter: VerificationPresenter?
     
     weak var delegate: VerificationViewControllerDelegate?
+    
+    private let authorizationData: AuthorizationData
+    
+    private var verificationCode: String {
+        return codeTextField.text ?? ""
+    }
+    
+    init(authorizationData: AuthorizationData) {
+        self.authorizationData = authorizationData
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - Override Methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        presenter = AuthorizationPresenter(viewController: self)
-        
+        presenter = VerificationPresenter(viewController: self)
     }
     
     override func loadView() {
@@ -67,8 +80,9 @@ class VerificationViewController: UIViewController {
     // MARK: - Methods
     
     @objc func continueButtonPressed(sender: UIButton!) {
-        self.presenter?.auth(verificationCode: codeTextField.text ?? "")
-        delegate?.showShoppingListVC()
+        presenter?.auth(with: authorizationData, verificationCode: verificationCode, completion: { [weak self] in
+            self?.delegate?.showShoppingListVC()
+        })
     }
     
     func addSubviews() {

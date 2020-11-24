@@ -17,14 +17,23 @@ final class Coordinator {
         self.window.rootViewController = navigationController
     }
     
+    func start() {
+        // Проверяем, авторизован ли пользователь
+        if UserDefaultsService.shared.isValueExists(forKey: UserDefaultsService.shared.userKey) {
+            showShoppingListsScreen()
+        } else {
+            showStartScreen()
+        }
+    }
+    
     func showStartScreen() {
         let vc = AuthorizationViewController()
         vc.delegate = self
         navigationController.pushViewController(vc, animated: true)
     }
     
-    func showVerificationScreen() {
-        let vc = VerificationViewController()
+    func showVerificationScreen(authorizationData: AuthorizationData) {
+        let vc = VerificationViewController(authorizationData: authorizationData)
         vc.delegate = self
         navigationController.pushViewController(vc, animated: true)
     }
@@ -54,17 +63,25 @@ final class Coordinator {
 // MARK: - AuthorizationViewControllerDelegate
 
 extension Coordinator: AuthorizationViewControllerDelegate {
-    func loginButtonPressed() {
-        showVerificationScreen()
+    
+    func didRecieveVerificationId(authorizationData: AuthorizationData) {
+        showVerificationScreen(authorizationData: authorizationData)
     }
+    
 }
 
 // MARK: - ShoppingListsViewControllerDelegate
 
 extension Coordinator: ShoppingListsViewControllerDelegate {
+    
     func showVC(products: [Product]) {
         showListScreen(products: products)
     }
+    
+    func didLogOut() {
+        start()
+    }
+    
 }
 
 // MARK: - VerificationViewControllerDelegate

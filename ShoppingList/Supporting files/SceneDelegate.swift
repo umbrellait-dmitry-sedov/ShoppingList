@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
 
         coordinator = Coordinator(window: window)
-        coordinator.showStartScreen()
+        coordinator.start()
         
         self.window = window
         window.makeKeyAndVisible()
