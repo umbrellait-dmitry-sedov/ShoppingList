@@ -18,11 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let window = UIWindow(windowScene: windowScene)
         
-        //let vc = ListTableViewController(presenter: ListPresenter(products: []))
-        //let navigationController = UINavigationController(rootViewController: vc)
-        //window.rootViewController = navigationController
-        
-      
+
         coordinator = Coordinator(window: window)
         coordinator.showShoppingListsScreen()
         

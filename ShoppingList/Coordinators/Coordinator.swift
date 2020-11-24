@@ -9,36 +9,30 @@ import UIKit
 
 final class Coordinator {
     
-    private weak var navigationController: UINavigationController?
+    private let navigationController = UINavigationController()
     private var window: UIWindow!
     
     init(window: UIWindow) {
         self.window = window
+        self.window.rootViewController = navigationController
     }
     
     func showStartScreen() {
         let vc = AuthorizationViewController()
         vc.delegate = self
-        let navigationController = UINavigationController(rootViewController: vc)
-        self.navigationController = navigationController
-        window.rootViewController = navigationController
+        navigationController.pushViewController(vc, animated: true)
     }
     
     func showVerificationScreen() {
         let vc = VerificationViewController()
         vc.delegate = self
-        navigationController?.pushViewController(vc, animated: true)
+        navigationController.pushViewController(vc, animated: true)
     }
     
     func showShoppingListsScreen() {
         let vc = ShoppingListsViewController(collectionViewLayout: UICollectionViewFlowLayout())
         vc.delegate = self
-        navigationController?.pushViewController(vc, animated: true)
-        
-        //need to skip authentification
-        let navigationController = UINavigationController(rootViewController: vc)
-        self.navigationController = navigationController
-        window.rootViewController = navigationController
+        navigationController.pushViewController(vc, animated: true)
     }
     
     func showListScreen(products: [Product]) {
@@ -47,14 +41,17 @@ final class Coordinator {
         vc.delegate = self
         presenter.viewController = vc
         
-        navigationController?.pushViewController(vc, animated: true)
+        navigationController.pushViewController(vc, animated: true)
     }
     
     func showAddUserScreen() {
         let vc = AddUserViewController()
-        navigationController?.pushViewController(vc, animated: true)
+        navigationController.pushViewController(vc, animated: true)
     }
+    
 }
+
+// MARK: - AuthorizationViewControllerDelegate
 
 extension Coordinator: AuthorizationViewControllerDelegate {
     func loginButtonPressed() {
@@ -62,17 +59,23 @@ extension Coordinator: AuthorizationViewControllerDelegate {
     }
 }
 
+// MARK: - ShoppingListsViewControllerDelegate
+
 extension Coordinator: ShoppingListsViewControllerDelegate {
     func showVC(products: [Product]) {
         showListScreen(products: products)
     }
 }
 
+// MARK: - VerificationViewControllerDelegate
+
 extension Coordinator: VerificationViewControllerDelegate {
     func showShoppingListVC() {
         showShoppingListsScreen()
     }
 }
+
+// MARK: - ListTableViewControllerDelegate
 
 extension Coordinator: ListTableViewControllerDelegate {
     func showAddUserVC() {
