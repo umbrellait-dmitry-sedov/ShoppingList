@@ -31,20 +31,10 @@ class AuthorizationPresenter {
                 self.authorizatonView.showAlert(title: "Error", message: error?.localizedDescription ?? "")
                 return
             }
-            self.db.collection("users").addDocument(data: [
-                "id": "\(verificationID ?? "")",
-                "name": self.authorizatonView.nameTextField.text ?? "",
-                "phoneNumber": "\(phoneNumber)"
-            ]) { err in
-                if let err = err {
-                    print("Error adding document: \(err)")
-                } else {
-                    print("Document added with ID: ")
-                }
-            }
             
             // Сохраняем его в UserDefaults для метода auth
             UserDefaults.standard.setValue(verificationID, forKey: "authVerificationID")
+            UserDefaults.standard.setValue(phoneNumber, forKey: "phoneNumber")
         }
     }
     
@@ -62,6 +52,17 @@ class AuthorizationPresenter {
                 /// Здесь уже юзер залогинился
                 /// Алерт нужен для проверки, что пользователь авторизовался успешно
                 //self.verificationView.showAlert(title: "Success", message: "YEAH")
+                self.db.collection("users").addDocument(data: [
+                    "id": "\(verificationID ?? "")",
+                    "name": self.authorizatonView.nameTextField.text ?? "",
+                    "phoneNumber": UserDefaults.standard.value(forKey: "phoneNumber") as? String ?? ""
+                ]) { err in
+                    if let err = err {
+                        print("Error adding document: \(err)")
+                    } else {
+                        print("Document added with ID: ")
+                    }
+                }
                 print(authResult.debugDescription)
             }
         }

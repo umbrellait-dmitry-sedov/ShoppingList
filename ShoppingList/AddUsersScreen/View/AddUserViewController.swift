@@ -21,14 +21,10 @@ class AddUserViewController: UITableViewController {
         db.collection("users").getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
+            } else if let documents = querySnapshot?.documents {
+                for document in documents {
                     //print("\(document.documentID) => \(document.data())")
-                    self.array = document.data()
-                    let user = User(
-                        id: self.array["name"] as? String ?? "",
-                        name: self.array["phoneNumber"] as? String ?? "",
-                        phoneNumber: self.array["id"] as? String ?? "")
+                    let user = User(firestoreData: document.data())
                     print(user)
                     self.presenter.users.append(user)
                     
