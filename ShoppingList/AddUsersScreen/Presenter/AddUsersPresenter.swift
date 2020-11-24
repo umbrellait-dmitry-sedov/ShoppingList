@@ -19,4 +19,24 @@ class AddUsersPresenter {
     init(viewController: AddUserViewController) {
         self.viewController = viewController
     }
+    
+    func fetchData() {
+        db.collection("users").getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else if let documents = querySnapshot?.documents {
+                for document in documents {
+                    let user = User(firestoreData: document.data())
+                    print(user)
+                    self.addUsers(user: user)
+                }
+                guard let vc = self.viewController else { return }
+                vc.tableView.reloadData()
+            }
+        }
+    }
+    
+    func addUsers(user: User) {
+        users.append(user)
+    }
 }
