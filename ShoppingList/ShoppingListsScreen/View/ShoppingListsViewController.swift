@@ -76,17 +76,30 @@ class ShoppingListsViewController: UICollectionViewController {
     
     private func showEditAlert(for cell: ShoppingListsCell) {
         
-        let alert = UIAlertController(title: "Title", message: "Please Select an Option", preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: "Editing the shopping list", message: "Please Select an Option", preferredStyle: .actionSheet)
+        let newNameAC = UIAlertController(title: nil, message: "Enter new name from shopping list", preferredStyle: .alert)
+        
+        newNameAC.addTextField()
+        newNameAC.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+            
+            guard let indexPath = self.collectionView.indexPath(for: cell) else { return }
+            guard let newName = newNameAC.textFields?[0].text else { return }
+            
+            self.presenter.renameShoppingList(from: cell, index: indexPath.row, newName: newName) {
+                self.collectionView.reloadData()
+            }
+        }))
         
         alert.addAction(UIAlertAction(title: "Edit", style: .default , handler:{ (UIAlertAction) in
-            print("User click Edit button")
+            self.present(newNameAC, animated: true)
         }))
 
         alert.addAction(UIAlertAction(title: "Delete", style: .destructive , handler:{ (UIAlertAction) in
             guard let indexPath = self.collectionView.indexPath(for: cell) else { return }
             
-            self.presenter.removeShoppingList(from: cell, index: indexPath.row)
-            self.collectionView.reloadData()
+            self.presenter.removeShoppingList(from: cell, index: indexPath.row) {
+                self.collectionView.reloadData()
+            }
         }))
         
         alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler:{ (UIAlertAction) in

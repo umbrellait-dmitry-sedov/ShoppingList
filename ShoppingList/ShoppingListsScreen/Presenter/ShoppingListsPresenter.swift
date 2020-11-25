@@ -26,7 +26,7 @@ class ShoppingListsPresenter {
     func removeList(index: Int) {
         shoppingLists.remove(at: index)
     }
-    
+    ///Функция сохраняет документ с пустыми значения, присваивая только имя списка. Служит для создания нового списка.
     func saveShoppingList(with title: String, completion: @escaping () -> Void) {
         guard let userID = Auth.auth().currentUser?.uid else { return }
         
@@ -41,17 +41,37 @@ class ShoppingListsPresenter {
             }
         }
     }
-    
-    func removeShoppingList(from cell: ShoppingListsCell, index: Int) {
+    ///Функция переименовывает поле titile у обьекта shoppingList.
+    func renameShoppingList(from cell: ShoppingListsCell, index: Int, newName: String, completion: @escaping () -> Void) {
         
-        guard let title = cell.cellTitle.text else { print("2"); return }
+        guard let title = cell.cellTitle.text else { return }
+        
+        let ref = db.collection("shoppingLists").document(title)
+
+        // Set the "capital" field of the city 'DC'
+        ref.updateData([
+            "name": newName
+        ]) { err in
+            if let err = err {
+                print("Error updating document: \(err)")
+            } else {
+                self.shoppingLists[index].title = newName
+                completion()
+            }
+        }
+    }
+    
+    ///Функция удаляет документ полностью по его индексу и названию.
+    func removeShoppingList(from cell: ShoppingListsCell, index: Int, completion: @escaping () -> Void) {
+        
+        guard let title = cell.cellTitle.text else { return }
         
         db.collection("shoppingLists").document(title).delete() { err in
             if let err = err {
                 print("Error removing document: \(err)")
             } else {
                 self.removeList(index: index)
-                print("cell delete")
+                completion()
             }
         }
     }

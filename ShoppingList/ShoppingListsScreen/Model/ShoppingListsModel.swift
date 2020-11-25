@@ -11,7 +11,7 @@ struct ShoppingList {
     
     let id: String
     
-    let title: String
+    var title: String
     
     let products: [Product]
     
