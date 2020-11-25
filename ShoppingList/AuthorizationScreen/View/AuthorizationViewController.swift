@@ -80,14 +80,14 @@ class AuthorizationViewController: UIViewController {
         })
     }
     
-    func addSubviews() {
+    private func addSubviews() {
         self.stackView.addArrangedSubview(nameTextField)
         self.stackView.addArrangedSubview(loginTextField)
         self.stackView.addArrangedSubview(loginButton)
         self.view.addSubview(stackView)
     }
     
-    func setupConstraints() {
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             
             stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),

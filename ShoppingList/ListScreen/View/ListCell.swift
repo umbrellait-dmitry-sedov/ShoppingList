@@ -58,7 +58,7 @@ class ListCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setProduct(_ product: Product) {
+    func setProduct(_ product: Product) {
         itemLabel.text = product.item
         completed = product.completed
         priceTextField.text = product.price
@@ -98,6 +98,7 @@ class ListCell: UITableViewCell {
         
         priceTextField.inputAccessoryView = doneToolbar
     }
+    
     ///This method is worked out when the price value is entered and the button is pressed.
     @objc private func doneButtonAction(){
         delegate?.cellDidChangePrice(self, product: Product(item: itemLabel.text, completed: completed, price: priceTextField.text))

@@ -17,14 +17,17 @@ class ShoppingListsPresenter {
 
     init(viewController: ShoppingListsViewController) {
         self.viewController = viewController
-        
     }
     
     func addList(_ list: ShoppingList) {
         shoppingLists.append(list)
     }
     
-    func saveShoppingListToFirestore(with title: String, completion: @escaping () -> Void) {
+    func removeList(index: Int) {
+        shoppingLists.remove(at: index)
+    }
+    
+    func saveShoppingList(with title: String, completion: @escaping () -> Void) {
         guard let userID = Auth.auth().currentUser?.uid else { return }
         
         let list = ShoppingList(id: UUID().uuidString, title: title, products: [], users: [userID])
@@ -35,6 +38,20 @@ class ShoppingListsPresenter {
             } else {
                 self.addList(list)
                 completion()
+            }
+        }
+    }
+    
+    func removeShoppingList(from cell: ShoppingListsCell, index: Int) {
+        
+        guard let title = cell.cellTitle.text else { print("2"); return }
+        
+        db.collection("shoppingLists").document(title).delete() { err in
+            if let err = err {
+                print("Error removing document: \(err)")
+            } else {
+                self.removeList(index: index)
+                print("cell delete")
             }
         }
     }

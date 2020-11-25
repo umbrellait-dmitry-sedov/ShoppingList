@@ -57,10 +57,12 @@ class ShoppingListsViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! ShoppingListsCell
         
+        cell.delegate = self
+        
         let list = presenter.shoppingLists[indexPath.item]
 
-        cell.label.text = list.title
-        cell.backgroundColor = .blue
+        cell.cellTitle.text = list.title
+        cell.backgroundColor = .green
         cell.layer.cornerRadius = 10
         
         return cell
@@ -72,13 +74,34 @@ class ShoppingListsViewController: UICollectionViewController {
         delegate?.showVC(products: products)
     }
     
+    private func showEditAlert(for cell: ShoppingListsCell) {
+        
+        let alert = UIAlertController(title: "Title", message: "Please Select an Option", preferredStyle: .actionSheet)
+        
+        alert.addAction(UIAlertAction(title: "Edit", style: .default , handler:{ (UIAlertAction) in
+            print("User click Edit button")
+        }))
+
+        alert.addAction(UIAlertAction(title: "Delete", style: .destructive , handler:{ (UIAlertAction) in
+            guard let indexPath = self.collectionView.indexPath(for: cell) else { return }
+            
+            self.presenter.removeShoppingList(from: cell, index: indexPath.row)
+            self.collectionView.reloadData()
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler:{ (UIAlertAction) in
+            print("User click Dismiss button")
+        }))
+        present(alert, animated: true)
+    }
+    
     @objc private func addListButtonPressed() {
         let ac = UIAlertController(title: nil, message: "Please enter the name of the list", preferredStyle: .alert)
         ac.addTextField()
         ac.addAction(UIAlertAction(title: "Done", style: .default, handler: { [weak self] action in
             guard let title = ac.textFields?[0].text else { return }
             
-            self?.presenter.saveShoppingListToFirestore(with: title) {
+            self?.presenter.saveShoppingList(with: title) {
                 self?.collectionView.reloadData()
             }
             
@@ -96,5 +119,11 @@ class ShoppingListsViewController: UICollectionViewController {
                 fatalError(error.localizedDescription)
             }
         }
+    }
+}
+
+extension ShoppingListsViewController: ShoppingListsCellDelegate {
+    func didTapEdit(_ cell: ShoppingListsCell) {
+        self.showEditAlert(for: cell)
     }
 }
