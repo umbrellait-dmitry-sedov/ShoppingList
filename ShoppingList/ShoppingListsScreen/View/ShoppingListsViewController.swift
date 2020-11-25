@@ -38,10 +38,12 @@ class ShoppingListsViewController: UICollectionViewController {
     
     override func loadView() {
         super.loadView()
+        
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: .addImage,
-                                                            style: .plain,
-                                                            target: self,
-                                                            action: #selector(addListButtonPressed))
+                                                             style: .plain,
+                                                             target: self,
+                                                             action: #selector(addListButtonPressed))
+        
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Log Out",
                                                            style: .plain,
                                                            target: self,
@@ -57,9 +59,10 @@ class ShoppingListsViewController: UICollectionViewController {
         
         let list = presenter.shoppingLists[indexPath.item]
 
-        cell.label.text = list.name
+        cell.label.text = list.title
         cell.backgroundColor = .blue
         cell.layer.cornerRadius = 10
+        
         return cell
     }
     
@@ -73,9 +76,12 @@ class ShoppingListsViewController: UICollectionViewController {
         let ac = UIAlertController(title: nil, message: "Please enter the name of the list", preferredStyle: .alert)
         ac.addTextField()
         ac.addAction(UIAlertAction(title: "Done", style: .default, handler: { [weak self] action in
-            guard let name = ac.textFields?[0].text else { return }
-            self?.presenter.addList(ShoppingList(name: name, products: []))
-            self?.collectionView.reloadData()
+            guard let title = ac.textFields?[0].text else { return }
+            
+            self?.presenter.saveShoppingListToFirestore(with: title) {
+                self?.collectionView.reloadData()
+            }
+            
         }))
         present(ac, animated: true)
     }

@@ -8,7 +8,7 @@ protocol AuthorizationViewControllerDelegate: class {
 
 class AuthorizationViewController: UIViewController {
     
-    var nameTextField: UITextField = {
+    lazy var nameTextField: UITextField = {
         let nameTextField = UITextField()
         nameTextField.translatesAutoresizingMaskIntoConstraints = false
         nameTextField.placeholder = "Enter the name"
@@ -17,7 +17,7 @@ class AuthorizationViewController: UIViewController {
         nameTextField.textColor = UIColor.black
         return nameTextField
     }()
-    var loginTextField: UITextField = {
+    lazy var loginTextField: UITextField = {
         let loginTextField = UITextField()
         loginTextField.translatesAutoresizingMaskIntoConstraints = false
         loginTextField.placeholder = "Enter the phone number"
@@ -26,7 +26,7 @@ class AuthorizationViewController: UIViewController {
         loginTextField.textColor = UIColor.black
         return loginTextField
     }()
-    var loginButton: UIButton = {
+    lazy var loginButton: UIButton = {
         let loginButton = UIButton()
         loginButton.translatesAutoresizingMaskIntoConstraints = false
         loginButton.setTitle("Sign Up", for: .normal)
@@ -35,7 +35,7 @@ class AuthorizationViewController: UIViewController {
         loginButton.addTarget(self, action: #selector(loginButtonPressed), for: .touchUpInside)
         return loginButton
     }()
-    var stackView: UIStackView = {
+    lazy var stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical

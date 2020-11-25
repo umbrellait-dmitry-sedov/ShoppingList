@@ -13,13 +13,13 @@ class ShoppingListsCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-
+        
         label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.textAlignment = .center
         
-        label?.textColor = UIColor.white
+        label.textColor = UIColor.white
         
         contentView.addSubview(label)
         

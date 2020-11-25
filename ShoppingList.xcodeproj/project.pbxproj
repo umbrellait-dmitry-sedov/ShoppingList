@@ -169,8 +169,8 @@
 			isa = PBXGroup;
 			children = (
 				2589CD85256D520C00695DF5 /* Services */,
-				25991B7C256D4252000C4D43 /* VerificationScreen */,
 				4A30C544256B9ED30034B318 /* AuthorizationScreen */,
+				25991B7C256D4252000C4D43 /* VerificationScreen */,
 				3885AE8B256551DC00EC71E8 /* ShoppingListsScreen */,
 				38C2605F25668C4C006C6FA7 /* ListScreen */,
 				38F187BC256CFFAD003C37AD /* AddUsersScreen */,

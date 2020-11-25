@@ -12,6 +12,8 @@ class ShoppingListsPresenter {
     weak var viewController: ShoppingListsViewController?
     
     var shoppingLists = [ShoppingList]()
+    
+    private let db = Firestore.firestore()
 
     init(viewController: ShoppingListsViewController) {
         self.viewController = viewController
@@ -20,6 +22,21 @@ class ShoppingListsPresenter {
     
     func addList(_ list: ShoppingList) {
         shoppingLists.append(list)
+    }
+    
+    func saveShoppingListToFirestore(with title: String, completion: @escaping () -> Void) {
+        guard let userID = Auth.auth().currentUser?.uid else { return }
+        
+        let list = ShoppingList(id: UUID().uuidString, title: title, products: [], users: [userID])
+        
+        self.db.collection("shoppingLists").document(title).setData(list.asDictionary) { (error) in
+            if let error = error {
+                print("Error adding document: \(error)")
+            } else {
+                self.addList(list)
+                completion()
+            }
+        }
     }
     
     func logOut(completion: @escaping (Result<Void, Error>) -> Void) {

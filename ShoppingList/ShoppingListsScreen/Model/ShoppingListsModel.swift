@@ -9,9 +9,22 @@ import Foundation
 
 struct ShoppingList {
     
-    let name: String
+    let id: String
+    
+    let title: String
     
     let products: [Product]
+    
+    let users: [String]
+    
+    var asDictionary: [String: Any] {
+        return [
+            "id": id,
+            "name": title,
+            "products": products,
+            "users": users
+        ]
+    }
     
 }
 
