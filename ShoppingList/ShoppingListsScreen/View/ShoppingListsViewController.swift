@@ -38,10 +38,12 @@ class ShoppingListsViewController: UICollectionViewController {
     
     override func loadView() {
         super.loadView()
+        
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: .addImage,
-                                                            style: .plain,
-                                                            target: self,
-                                                            action: #selector(addListButtonPressed))
+                                                             style: .plain,
+                                                             target: self,
+                                                             action: #selector(addListButtonPressed))
+        
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Log Out",
                                                            style: .plain,
                                                            target: self,
@@ -55,11 +57,14 @@ class ShoppingListsViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! ShoppingListsCell
         
+        cell.delegate = self
+        
         let list = presenter.shoppingLists[indexPath.item]
 
-        cell.label.text = list.name
-        cell.backgroundColor = .blue
+        cell.cellTitle.text = list.title
+        cell.backgroundColor = .green
         cell.layer.cornerRadius = 10
+        
         return cell
     }
     
@@ -69,13 +74,50 @@ class ShoppingListsViewController: UICollectionViewController {
         delegate?.showVC(products: products)
     }
     
+    private func showEditAlert(for cell: ShoppingListsCell) {
+        
+        let alert = UIAlertController(title: "Editing the shopping list", message: "Please Select an Option", preferredStyle: .actionSheet)
+        let newNameAC = UIAlertController(title: nil, message: "Enter new name from shopping list", preferredStyle: .alert)
+        
+        newNameAC.addTextField()
+        newNameAC.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+            
+            guard let indexPath = self.collectionView.indexPath(for: cell) else { return }
+            guard let newName = newNameAC.textFields?[0].text else { return }
+            
+            self.presenter.renameShoppingList(from: cell, index: indexPath.row, newName: newName) {
+                self.collectionView.reloadData()
+            }
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Edit", style: .default , handler:{ (UIAlertAction) in
+            self.present(newNameAC, animated: true)
+        }))
+
+        alert.addAction(UIAlertAction(title: "Delete", style: .destructive , handler:{ (UIAlertAction) in
+            guard let indexPath = self.collectionView.indexPath(for: cell) else { return }
+            
+            self.presenter.removeShoppingList(from: cell, index: indexPath.row) {
+                self.collectionView.reloadData()
+            }
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler:{ (UIAlertAction) in
+            print("User click Dismiss button")
+        }))
+        present(alert, animated: true)
+    }
+    
     @objc private func addListButtonPressed() {
         let ac = UIAlertController(title: nil, message: "Please enter the name of the list", preferredStyle: .alert)
         ac.addTextField()
         ac.addAction(UIAlertAction(title: "Done", style: .default, handler: { [weak self] action in
-            guard let name = ac.textFields?[0].text else { return }
-            self?.presenter.addList(ShoppingList(name: name, products: []))
-            self?.collectionView.reloadData()
+            guard let title = ac.textFields?[0].text else { return }
+            
+            self?.presenter.saveShoppingList(with: title) {
+                self?.collectionView.reloadData()
+            }
+            
         }))
         present(ac, animated: true)
     }
@@ -90,5 +132,11 @@ class ShoppingListsViewController: UICollectionViewController {
                 fatalError(error.localizedDescription)
             }
         }
+    }
+}
+
+extension ShoppingListsViewController: ShoppingListsCellDelegate {
+    func didTapEdit(_ cell: ShoppingListsCell) {
+        self.showEditAlert(for: cell)
     }
 }

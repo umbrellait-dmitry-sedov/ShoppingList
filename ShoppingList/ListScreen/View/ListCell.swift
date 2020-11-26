@@ -23,32 +23,54 @@ class ListCell: UITableViewCell {
         }
     }
     
-    private var itemLabel: UILabel!
-    private var completedButton: RadioButton!
-    private var priceTextField: UITextField!
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        itemLabel = UILabel()
+    lazy var itemLabel: UILabel = {
+        let itemLabel = UILabel()
         itemLabel.translatesAutoresizingMaskIntoConstraints = false
         itemLabel.textAlignment = .left
-        
-        priceTextField = UITextField()
+        return itemLabel
+    }()
+    
+    lazy var priceTextField: UITextField = {
+        let priceTextField = UITextField()
         priceTextField.translatesAutoresizingMaskIntoConstraints = false
         priceTextField.textAlignment = .right
         priceTextField.keyboardType = .numberPad
         priceTextField.placeholder = "Enter the price"
-        addDoneButtonOnKeyboard()
-        
-        completedButton = RadioButton()
+        return priceTextField
+    }()
+    lazy var completedButton: RadioButton = {
+        let completedButton = RadioButton()
         completedButton.translatesAutoresizingMaskIntoConstraints = false
         completedButton.addTarget(self, action: #selector(completedButtonTapped), for: .touchUpInside)
+        return completedButton
+    }()
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+
+        addDoneButtonOnKeyboard()
+        addSubviews()
+        setupConstraints()
         
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setProduct(_ product: Product) {
+        itemLabel.text = product.item
+        completed = product.completed
+        priceTextField.text = product.price
+    }
+    
+    private func addSubviews() {
         contentView.addSubview(itemLabel)
         contentView.addSubview(priceTextField)
         contentView.addSubview(completedButton)
-        
+    }
+    
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             itemLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10.0),
             itemLabel.topAnchor.constraint(equalTo: self.topAnchor),
@@ -61,16 +83,6 @@ class ListCell: UITableViewCell {
             completedButton.bottomAnchor.constraint(equalTo: self.bottomAnchor)
             
         ])
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func setProduct(_ product: Product) {
-        itemLabel.text = product.item
-        completed = product.completed
-        priceTextField.text = product.price
     }
     
     private func addDoneButtonOnKeyboard(){
@@ -86,6 +98,7 @@ class ListCell: UITableViewCell {
         
         priceTextField.inputAccessoryView = doneToolbar
     }
+    
     ///This method is worked out when the price value is entered and the button is pressed.
     @objc private func doneButtonAction(){
         delegate?.cellDidChangePrice(self, product: Product(item: itemLabel.text, completed: completed, price: priceTextField.text))

@@ -13,7 +13,7 @@ protocol VerificationViewControllerDelegate: class {
 
 class VerificationViewController: UIViewController {
     
-    var codeTextField: UITextField = {
+    lazy var codeTextField: UITextField = {
         let codeTextField = UITextField()
         codeTextField.translatesAutoresizingMaskIntoConstraints = false
         codeTextField.placeholder = "Enter the verification code"
@@ -22,7 +22,7 @@ class VerificationViewController: UIViewController {
         codeTextField.textColor = UIColor.black
         return codeTextField
     }()
-    var continueButton: UIButton = {
+    lazy var continueButton: UIButton = {
         let continueButton = UIButton()
         continueButton.translatesAutoresizingMaskIntoConstraints = false
         continueButton.setTitle("VERIFY & CONTINUE", for: .normal)
@@ -31,7 +31,7 @@ class VerificationViewController: UIViewController {
         continueButton.addTarget(self, action: #selector(continueButtonPressed), for: .touchUpInside)
         return continueButton
     }()
-    var stackView: UIStackView = {
+    lazy var stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
